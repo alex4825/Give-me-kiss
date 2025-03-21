@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: cdd6a85a5da5e324b9f994bdafb05021
+guid: a9eca688d745cea4c9513e65ca3487a0
 TrueTypeFontImporter:
   externalObjects: {}
   serializedVersion: 4
@@ -9,7 +9,7 @@ TrueTypeFontImporter:
   characterPadding: 1
   includeFontData: 1
   fontNames:
-  - Shantell Sans
+  - Roboto Mono
   fallbackFontReferences: []
   customCharacters: 
   fontRenderingMode: 0
