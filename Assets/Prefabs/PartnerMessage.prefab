@@ -281,7 +281,7 @@ GameObject:
   - component: {fileID: 5607816958173738474}
   - component: {fileID: 7519494715952317947}
   m_Layer: 5
-  m_Name: CharacterIcon
+  m_Name: PartnerIcon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -375,10 +375,9 @@ GameObject:
   - component: {fileID: 1499366083427193200}
   - component: {fileID: 9080891301939121759}
   - component: {fileID: 3036714898857470457}
-  - component: {fileID: 4644195113508953914}
   - component: {fileID: 7865140517882855788}
   m_Layer: 5
-  m_Name: CharacterMessage
+  m_Name: PartnerMessage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -439,21 +438,6 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
---- !u!114 &4644195113508953914
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6777029515189448801}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 779811e99a5923740aac02c2f59b563e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _personIcon: {fileID: 0}
-  _text: {fileID: 0}
-  _date: {fileID: 0}
 --- !u!114 &7865140517882855788
 MonoBehaviour:
   m_ObjectHideFlags: 0

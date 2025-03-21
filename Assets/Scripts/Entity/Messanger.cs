@@ -21,4 +21,16 @@ public class Messanger : MonoBehaviour
             _inputField.text = "";
         }
     }
+
+    public void SendPartnerMessage()
+    {
+        string message = _inputField.text;
+
+        if (!string.IsNullOrWhiteSpace(message))
+        {
+            Transform messageObject = Instantiate(_partnerMessagePrefab, _messangesContainer);
+            messageObject.GetComponent<Message>().InitiateMessage(GameManager.Instance.CurrentPartner, message);
+            _inputField.text = "";
+        }
+    }
 }
