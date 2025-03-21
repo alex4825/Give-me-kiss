@@ -10,34 +10,66 @@ using UnityEditor.VersionControl;
 public class Messanger : MonoBehaviour
 {
     [SerializeField] private Transform _messangesContainer;
-    [SerializeField] private Transform _playerMessagePrefab;
-    [SerializeField] private Transform _partnerMessagePrefab;
+    [SerializeField] private Transform _messagePrefab;
     [SerializeField] private TMP_InputField _inputField;
 
     private ChatGptParameters _gptParameters;
+    private List<Transform> _visibleMessages;
 
-    private void Start()
-    { 
+    private void Awake()
+    {
         _gptParameters = new ChatGptParameters("")
         {
             model = ChatGptModel.Gpt35Turbo,
             temperature = 0.5f
         };
+
+        _visibleMessages = new List<Transform>();
     }
 
-    public void WritePlayerMessage()
+    private void OnEnable()
+    {
+        FillFromChatHistory();
+    }
+
+
+    private void FillFromChatHistory()
+    {
+        Partner partner = GameManager.Instance.CurrentPartner;
+        Player player = GameManager.Instance.Player;
+
+        foreach (var message in partner.Chat.History)
+        {
+            if (message.role == Role.User)
+            {
+                WriteMessageToContainerFrom(player, message.text);
+            }
+            else if (message.role == Role.AI)
+            {
+                WriteMessageToContainerFrom(partner, message.text);
+            }
+        }
+    }
+
+    public void WritePlayerMessageFromInput()
     {
         string message = _inputField.text;
 
         if (!string.IsNullOrWhiteSpace(message))
         {
-            Transform messageObject = Instantiate(_playerMessagePrefab, _messangesContainer);
-            messageObject.GetComponent<Message>().InitiateMessage(GameManager.Instance.Player, message);
+            WriteMessageToContainerFrom(GameManager.Instance.Player, message);
             _inputField.text = "";
 
             GameManager.Instance.CurrentPartner.Chat.Add(new AiToolbox.Message(message, Role.User));
             SendMessageToPartner();
         }
+    }
+
+    private void WriteMessageToContainerFrom(Person person, string message)
+    {
+        Transform messageObject = Instantiate(_messagePrefab, _messangesContainer);
+        messageObject.GetComponent<Message>().InitiateMessage(person, message);
+        _visibleMessages.Add(messageObject);
     }
 
     private void SendMessageToPartner()
@@ -49,7 +81,7 @@ public class Messanger : MonoBehaviour
             _gptParameters,
             response =>
             {
-                WritePartnerMessage(response);
+                WriteMessageToContainerFrom(currentPartner, response);
             },
             (errorCode, errorMessage) =>
             {
@@ -58,13 +90,18 @@ public class Messanger : MonoBehaviour
         );
     }
 
-    private void WritePartnerMessage(string response)
+    private void OnDisable()
     {
-        Partner currentPartner = GameManager.Instance.CurrentPartner;
+        ClearChat();
+    }
 
-        Transform messageObject = Instantiate(_partnerMessagePrefab, _messangesContainer);
-        messageObject.GetComponent<Message>().InitiateMessage(currentPartner, response);
+    private void ClearChat()
+    {
+        foreach (Transform message in _visibleMessages)
+        {
+            Destroy(message);
+        }
 
-        currentPartner.Chat.Add(new AiToolbox.Message(response, Role.AI));
+        _visibleMessages.Clear();
     }
 }

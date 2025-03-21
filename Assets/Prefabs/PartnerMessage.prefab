@@ -453,6 +453,9 @@ MonoBehaviour:
   _personIcon: {fileID: 5607816958173738474}
   _text: {fileID: 3663228354281549418}
   _date: {fileID: 2822842515978434142}
+  _backgroundImage: {fileID: 0}
+  _playerBackgroundMessageColor: {r: 0, g: 0, b: 0, a: 0}
+  _partnerBackgroundMessageColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!1 &8139468955720350770
 GameObject:
   m_ObjectHideFlags: 0

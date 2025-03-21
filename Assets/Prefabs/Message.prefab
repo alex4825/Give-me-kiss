@@ -110,7 +110,7 @@ GameObject:
   - component: {fileID: 5557089738900583543}
   - component: {fileID: 4373774104018160144}
   m_Layer: 5
-  m_Name: Message
+  m_Name: MessageBackground
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -228,7 +228,7 @@ GameObject:
   - component: {fileID: 1824587089445170026}
   - component: {fileID: -1119442025286190006}
   m_Layer: 5
-  m_Name: PlayerMessage
+  m_Name: Message
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -304,6 +304,9 @@ MonoBehaviour:
   _personIcon: {fileID: 7396803848072399190}
   _text: {fileID: 29279225168208260}
   _date: {fileID: 115792863055564800}
+  _backgroundImage: {fileID: 4373774104018160144}
+  _playerBackgroundMessageColor: {r: 1, g: 0.75686276, b: 0.6313726, a: 1}
+  _partnerBackgroundMessageColor: {r: 1, g: 0.9411765, b: 0.91764706, a: 1}
 --- !u!1 &7896266839511805331
 GameObject:
   m_ObjectHideFlags: 0
