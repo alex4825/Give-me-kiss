@@ -2,26 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameManager : MonoBehaviour
+public class GameManager : SingletonPersistent<GameManager>
 {    
     [SerializeField] private string _resourcesPlayerFileName;
 
     public Player Player { get; private set; }
+    public Character CurrentCharacter { get; private set; }
 
-    public static GameManager Instance { get; private set; }
-
-    private void Awake()
+    protected override void Awake()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
+        base.Awake();
 
         Player = new Player(_resourcesPlayerFileName);
+    }
+
+    public void SetCurrent(Character character)
+    {
+
     }
 }

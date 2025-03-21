@@ -4,25 +4,15 @@ using Newtonsoft.Json;
 using UnityEngine.UI;
 using UnityEngine.TextCore.Text;
 
-public class EmotionManager : MonoBehaviour
+public class EmotionManager : SingletonPersistent<EmotionManager>
 {
     [SerializeField] private string _emotionsResourcesFile;
 
     public List<Emotion> Emotions { get; private set; }
 
-    public static EmotionManager Instance { get; private set; }
-
-    private void Awake()
+    protected override void Awake()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
+        base.Awake();
 
         InitiateAmotionsFromDataFile(_emotionsResourcesFile);
         DebugInformer.ShowStringFrom<Emotion>(Emotions);

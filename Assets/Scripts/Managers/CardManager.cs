@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.TextCore.Text;
 
-public class CardManager : MonoBehaviour
+public class CardManager : SingletonPersistent<CardManager>
 {
     [SerializeField] private Transform _cardContainer;
     [SerializeField] private GameObject _cardPrefab;
@@ -12,19 +12,9 @@ public class CardManager : MonoBehaviour
 
     public List<Card> Cards { get; private set; }
 
-    public static CardManager Instance { get; private set; }
-
-    private void Awake()
+    protected override void Awake()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
+        base.Awake();
 
         _characters = CharacterManager.Instance.Characters;
         CreateCards();

@@ -2,25 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CharacterManager : MonoBehaviour
+public class CharacterManager : SingletonPersistent<CharacterManager>
 {
     [SerializeField] private string _resourcesCharactersFileName;
 
     public List<Character> Characters { get; private set; }
 
-    public static CharacterManager Instance { get; private set; }
-
-    private void Awake()
+    protected override void Awake()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
+        base.Awake();
 
         InitiateCharactersFromDataFile();
         DebugInformer.ShowStringFrom<Character>(Characters);
