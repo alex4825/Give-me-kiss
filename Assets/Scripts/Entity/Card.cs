@@ -9,12 +9,12 @@ public class Card : MonoBehaviour
     [SerializeField] private Image _characterImage;
     [SerializeField] private TextMeshProUGUI _characterDescription;
 
-    private Character _character;
+    private Partner _partner;
 
-    public void Initiate(Character character)
+    public void Initiate(Partner partner)
     {
-        _character = character;
-        _characterImage.sprite = _character.FaceSprite;
-        _characterDescription.text = $"Имя: {_character.Name}\nВозраст: {_character.Age}";
+        _partner = partner;
+        _characterImage.sprite = _partner.FaceSprite;
+        _characterDescription.text = $"Имя: {_partner.Name}\nВозраст: {_partner.Age}";
     }
 }

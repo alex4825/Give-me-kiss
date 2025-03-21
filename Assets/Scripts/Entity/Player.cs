@@ -8,20 +8,19 @@ public class Player
     private string _name;
     private Sprite _faceSprite;
     private Sprite _appearanceSprite;
-    private const string ResourcesImagesFolder = "Images/Characters/";
 
     public string OriginName => _originName;
     public string Name => _name; 
     public Sprite FaceSprite => _faceSprite;
     public Sprite AppearanceSprite => _appearanceSprite;
 
-    public Player(string playerDataFile)
+    public Player()
     {
-        PlayerData playerData = JsonConverter.ToObject<PlayerData>(playerDataFile);
+        PlayerData playerData = FileManager.Instance.JsonToPlayerData();
 
         _originName = playerData.OriginName;
         _name = playerData.Name;
-        _faceSprite = SpriteReceiver.GetFromFile($"{ResourcesImagesFolder}{_originName}_face");
-        _appearanceSprite = SpriteReceiver.GetFromFile($"{ResourcesImagesFolder}{_originName}_full");
+        _faceSprite = FileManager.Instance.LoadCharacterSpriteBy($"{_originName}_face");
+        _appearanceSprite = FileManager.Instance.LoadCharacterSpriteBy($"{_originName}_full");
     }
 }

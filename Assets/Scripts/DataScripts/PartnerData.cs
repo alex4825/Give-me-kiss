@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class CharacterData : MonoBehaviour
+public class PartnerData : MonoBehaviour
 {
     [JsonProperty("name")]
     private string _name;

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
-public class Character
+public class Partner
 {
     private string _originName;
     private string _name;
@@ -13,9 +13,8 @@ public class Character
     private string _aboutSelf;
     private Sprite _faceSprite;
     private Sprite _appearanceSprite;
-    private const string ResourcesImagesFolder = "Images/Characters/";
 
-    public Character(string originName, CharacterData characterData)
+    public Partner(string originName, PartnerData characterData)
     {
         _originName = originName;
         _name = characterData.Name;
@@ -23,8 +22,8 @@ public class Character
         _height = characterData.Height;
         _aboutSelf = characterData.AboutSelf;
 
-        _faceSprite = SpriteReceiver.GetFromFile($"{ResourcesImagesFolder}{originName}_face");
-        _appearanceSprite = SpriteReceiver.GetFromFile($"{ResourcesImagesFolder}{originName}_full");
+        _faceSprite = FileManager.Instance.LoadCharacterSpriteBy($"{originName}_face");
+        _appearanceSprite = FileManager.Instance.LoadCharacterSpriteBy($"{originName}_full");
     }
 
     public string OriginName => _originName;

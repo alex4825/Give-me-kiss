@@ -8,7 +8,7 @@ public class CardManager : SingletonPersistent<CardManager>
     [SerializeField] private Transform _cardContainer;
     [SerializeField] private GameObject _cardPrefab;
 
-    private List<Character> _characters;
+    private List<Partner> _partners;
 
     public List<Card> Cards { get; private set; }
 
@@ -16,18 +16,18 @@ public class CardManager : SingletonPersistent<CardManager>
     {
         base.Awake();
 
-        _characters = CharacterManager.Instance.Characters;
+        _partners = PartnerManager.Instance.Partners;
         CreateCards();
     }
 
     private void CreateCards()
     {
-        Cards = new List<Card>(_characters.Count);
+        Cards = new List<Card>(_partners.Count);
 
-        foreach (Character character in _characters)
+        foreach (Partner partner in _partners)
         {
             GameObject cardGameObject = Instantiate(_cardPrefab, _cardContainer);
-            cardGameObject.GetComponent<Card>().Initiate(character);
+            cardGameObject.GetComponent<Card>().Initiate(partner);
         }
     }
 }

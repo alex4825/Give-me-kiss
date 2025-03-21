@@ -7,7 +7,7 @@ public class Messanger : MonoBehaviour
 {
     [SerializeField] private Transform _messangesContainer;
     [SerializeField] private Transform _playerMessagePrefab;
-    [SerializeField] private Transform _characterMessagePrefab;
+    [SerializeField] private Transform _partnerMessagePrefab;
     [SerializeField] private TMP_InputField _inputField;
 
     public void SendPlayerMessage()

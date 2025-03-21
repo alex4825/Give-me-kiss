@@ -6,24 +6,21 @@ using UnityEngine.TextCore.Text;
 
 public class EmotionManager : SingletonPersistent<EmotionManager>
 {
-    [SerializeField] private string _emotionsResourcesFile;
-
     public List<Emotion> Emotions { get; private set; }
 
     protected override void Awake()
     {
         base.Awake();
 
-        InitiateAmotionsFromDataFile(_emotionsResourcesFile);
+        InitiateAmotions();
         DebugInformer.ShowStringFrom<Emotion>(Emotions);
     }
 
-    //public EmotionData GetDataOf(string emotionName) => Emotions[emotionName];
 
-    private void InitiateAmotionsFromDataFile(string fileName)
+    private void InitiateAmotions()
     {
         Emotions = new List<Emotion>();
-        Dictionary<string, EmotionData> emotionsData = JsonConverter.ToDictionary<EmotionData>(fileName);
+        Dictionary<string, EmotionData> emotionsData = FileManager.Instance.JsonToEmotionDataDictionary();
 
         foreach (var pair in emotionsData)
         {

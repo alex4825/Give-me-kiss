@@ -10,7 +10,6 @@ public class Emotion
     private string _name;
     private float _stranght;
     private Sprite _emojiSprite;
-    private const string ResourcesImagesFolder = "Images/Emoji/";
 
     public Emotion(string originName, EmotionData emotionData)
     {
@@ -18,7 +17,7 @@ public class Emotion
         _name = emotionData.Name;
         _stranght = emotionData.Strength;
 
-        _emojiSprite = SpriteReceiver.GetFromFile(ResourcesImagesFolder + originName);
+        _emojiSprite = FileManager.Instance.LoadEmojiSpriteBy(_originName);
     }
 
     public override string ToString()
