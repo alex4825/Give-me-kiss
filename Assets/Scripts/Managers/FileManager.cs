@@ -8,9 +8,11 @@ public class FileManager : SingletonPersistent<FileManager>
     [SerializeField] private string CharactersSpritesFolder = "Images/Characters/";
     [SerializeField] private string EmojiSpritesFolder = "Images/Emoji/";
     [SerializeField] private string JsonDataFolder = "JsonData/";
+    [SerializeField] private string TextDataFolder = "TextData/";
     [SerializeField] private string PlayerDataFileName = "PlayerData";
     [SerializeField] private string EmotionsDataFileName = "EmotionsData";
     [SerializeField] private string PartnersDataFileName = "PartnersData";
+    [SerializeField] private string MessageHistoryFilePrefix = "MessageHistory_";
 
     protected override void Awake()
     {
@@ -83,4 +85,18 @@ public class FileManager : SingletonPersistent<FileManager>
 
         return sprite;
     }
+
+    //public List<AiToolbox.Message> LoadMessageHistoryWith(Person person)
+    //{
+    //    string filePath = TextDataFolder + MessageHistoryFilePrefix + person.OriginName;
+
+    //    TextAsset messageHistoryFile = Resources.Load<TextAsset>(filePath);
+
+    //    if (messageHistoryFile == null)
+    //    {
+    //        Debug.LogError($"File Resources/{filePath} doesn't exist.");
+    //        return null;
+    //    }
+
+    //}
 }

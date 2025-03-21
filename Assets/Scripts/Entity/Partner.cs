@@ -15,10 +15,12 @@ public class Partner : Person
         AboutSelf = characterData.AboutSelf;
         FaceSprite = FileManager.Instance.LoadCharacterSpriteBy($"{OriginName}_face");
         AppearanceSprite = FileManager.Instance.LoadCharacterSpriteBy($"{OriginName}_full");
+        Chat = new Chat(this);
     }
 
     public int Age { get; private set; }
     public int Height { get; private set; }
     public string AboutSelf { get; private set; }
+    public Chat Chat { get; private set; }
 
 }

@@ -17,7 +17,7 @@ public class Messanger : MonoBehaviour
     private ChatGptParameters _gptParameters;
 
     private void Start()
-    {
+    { 
         _gptParameters = new ChatGptParameters("")
         {
             model = ChatGptModel.Gpt35Turbo,
@@ -35,31 +35,36 @@ public class Messanger : MonoBehaviour
             messageObject.GetComponent<Message>().InitiateMessage(GameManager.Instance.Player, message);
             _inputField.text = "";
 
-            SendMessageToPartner(message);
+            GameManager.Instance.CurrentPartner.Chat.Add(new AiToolbox.Message(message, Role.User));
+            SendMessageToPartner();
         }
     }
 
-    private void SendMessageToPartner(string playerMessage)
+    private void SendMessageToPartner()
     {
+        Partner currentPartner = GameManager.Instance.CurrentPartner;
+
         ChatGpt.Request(
-            playerMessage,
+            currentPartner.Chat.History,
             _gptParameters,
             response =>
             {
-                WritePersonMessage(response);
+                WritePartnerMessage(response);
             },
             (errorCode, errorMessage) =>
             {
-                Debug.LogError($"Error receiving a response from {GameManager.Instance.CurrentPartner.Name}.\n {errorCode}: {errorMessage}");
+                Debug.LogError($"Error receiving a response from {currentPartner.Name}.\n {errorCode}: {errorMessage}");
             }
         );
     }
 
-    private void WritePersonMessage(string response)
+    private void WritePartnerMessage(string response)
     {
         Partner currentPartner = GameManager.Instance.CurrentPartner;
 
         Transform messageObject = Instantiate(_partnerMessagePrefab, _messangesContainer);
         messageObject.GetComponent<Message>().InitiateMessage(currentPartner, response);
+
+        currentPartner.Chat.Add(new AiToolbox.Message(response, Role.AI));
     }
 }

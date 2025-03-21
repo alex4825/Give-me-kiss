@@ -38,4 +38,9 @@ public class GameManager : SingletonPersistent<GameManager>
         _partnerSelectionMenu.gameObject.SetActive(false);
         _messengerMenu.gameObject.SetActive(true);
     }
+
+    private void OnDestroy()
+    {
+        Card.OnPartnerChoosen -= Card_OnPartnerChoosen;
+    }
 }
