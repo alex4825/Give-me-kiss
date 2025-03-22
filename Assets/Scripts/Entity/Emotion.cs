@@ -20,8 +20,6 @@ public class Emotion
         _emojiSprite = FileManager.Instance.LoadEmojiSpriteBy(_originName);
     }
 
-    public override string ToString()
-    {
-        return $"{_originName}: {_name}, {_stranght}."; 
-    }
+    public string OriginName => _originName;
+    public string Name => _name;
 }

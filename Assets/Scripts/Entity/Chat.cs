@@ -7,17 +7,22 @@ using System;
 public class Chat
 {
     private string _filePath;
-
     private string ChatFilePostfix = "_chat.json";
 
     public Chat(Partner partner)
     {
         _filePath = Path.Combine(Application.persistentDataPath, partner.OriginName + ChatFilePostfix);
 
-        History = LoadHistory();
+        InitiateHistory();
     }
 
     public List<AiToolbox.Message> History { get; private set; }
+    public bool IsInitialized => History.Count > 0;
+
+    private void InitiateHistory()
+    {
+        History = LoadHistory();
+    }
 
     public void Add(AiToolbox.Message message)
     {
@@ -50,6 +55,22 @@ public class Chat
         {
             Debug.LogWarning($"File {_filePath} doesn't exist. It was created now.");
         }
+    }
+
+    public void Clear()
+    {
+        if (File.Exists(_filePath))
+        {
+            File.Delete(_filePath);
+            Debug.Log($"File deleted: {_filePath}");
+        }
+        else
+        {
+            Debug.LogWarning($"File {_filePath} doesn't exist.");
+        }
+
+        History.Clear();
+        InitiateHistory();
     }
 }
 

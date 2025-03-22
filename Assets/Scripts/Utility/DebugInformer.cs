@@ -7,7 +7,7 @@ public static class DebugInformer
 {
     public static void ShowStringFrom<T>(List<T> list)
     {
-        string str = "";
+        string str = string.Empty;
 
         foreach (T item in list)
         {

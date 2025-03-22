@@ -30,4 +30,16 @@ public class EmotionManager : SingletonPersistent<EmotionManager>
             Emotions.Add(new Emotion(emotionOriginName, emotionData));
         }
     }
+
+    public string GetEmotionsInString()
+    {
+        string emotionsString = string.Empty;
+
+        foreach (var emotion in Emotions)
+        {
+            emotionsString += emotion.OriginName + " ";
+        }
+
+        return emotionsString;
+    }
 }

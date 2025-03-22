@@ -23,4 +23,8 @@ public class Partner : Person
     public string AboutSelf { get; private set; }
     public Chat Chat { get; private set; }
 
+    public override string ToString()
+    {
+        return $"Имя: {Name}, Возраст: {Age}, Рост: {Height}, История персонажа: {AboutSelf}";
+    }
 }

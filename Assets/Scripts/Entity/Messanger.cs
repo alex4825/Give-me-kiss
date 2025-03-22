@@ -6,6 +6,8 @@ using UnityEngine;
 using AiToolbox;
 using System.Security.Cryptography;
 using UnityEditor.VersionControl;
+using System.IO;
+using TreeEditor;
 
 public class Messanger : MonoBehaviour
 {
@@ -15,39 +17,61 @@ public class Messanger : MonoBehaviour
 
     private ChatGptParameters _gptParameters;
     private List<Transform> _visibleMessages;
+    private string _initialMessage;
+    private bool _isInitiated;
 
     private void Awake()
     {
         _gptParameters = new ChatGptParameters("")
         {
-            model = ChatGptModel.Gpt35Turbo,
+            model = ChatGptModel.Gpt4Turbo,
             temperature = 0.5f
         };
 
         _visibleMessages = new List<Transform>();
+        _initialMessage = GetInitiateMessage();
     }
 
     private void OnEnable()
     {
-        FillFromChatHistory();
+        _isInitiated = GameManager.Instance.CurrentPartner.Chat.IsInitialized;
+
+        if (_isInitiated)
+        {
+            FillContainerFromChatHistory();
+        }
     }
 
-
-    private void FillFromChatHistory()
+    private string GetInitiateMessage()
     {
-        Partner partner = GameManager.Instance.CurrentPartner;
-        Player player = GameManager.Instance.Player;
+        string initiateMessage = FileManager.Instance.LoadInitialInstructionsToAI();
 
-        foreach (var message in partner.Chat.History)
+        string aboutAmotions = $"emotion может принимать такие значени€: {EmotionManager.Instance.GetEmotionsInString()}.";
+        string aboutCurrentPartner = $"“вой персонаж: {GameManager.Instance.CurrentPartner.ToString()}.";
+        string closingMessage = $"“еперь начинаетс€ тво€ переписка с игроком. _INSTRUCT_END.";
+
+        initiateMessage += aboutAmotions + aboutCurrentPartner + closingMessage;
+        Debug.Log($"Initial message for {GameManager.Instance.CurrentPartner.OriginName} is:\n {initiateMessage}");
+
+
+        return initiateMessage;
+    }
+
+    private void FillContainerFromChatHistory()
+    {
+        foreach (var message in GameManager.Instance.CurrentPartner.Chat.History)
         {
+            if (message.text.Contains("_INSTRUCT"))
+                continue;
+
+            Transform messageObject = Instantiate(_messagePrefab, _messangesContainer);
+
             if (message.role == Role.User)
-            {
-                WriteMessageToContainerFrom(player, message.text);
-            }
+                messageObject.GetComponent<Message>().InitiateMessageFor(GameManager.Instance.Player, message.text);
             else if (message.role == Role.AI)
-            {
-                WriteMessageToContainerFrom(partner, message.text);
-            }
+                messageObject.GetComponent<Message>().InitiateMessageFor(GameManager.Instance.CurrentPartner, message.text);
+
+            _visibleMessages.Add(messageObject);
         }
     }
 
@@ -58,9 +82,14 @@ public class Messanger : MonoBehaviour
         if (!string.IsNullOrWhiteSpace(message))
         {
             WriteMessageToContainerFrom(GameManager.Instance.Player, message);
-            _inputField.text = "";
+            _inputField.text = string.Empty;
 
-            GameManager.Instance.CurrentPartner.Chat.Add(new AiToolbox.Message(message, Role.User));
+            if (_isInitiated == false)
+            {
+                GameManager.Instance.CurrentPartner.Chat.Add(new AiToolbox.Message(_initialMessage, Role.User));
+                _isInitiated = true;
+            }
+
             SendMessageToPartner();
         }
     }
@@ -68,8 +97,13 @@ public class Messanger : MonoBehaviour
     private void WriteMessageToContainerFrom(Person person, string message)
     {
         Transform messageObject = Instantiate(_messagePrefab, _messangesContainer);
-        messageObject.GetComponent<Message>().InitiateMessage(person, message);
+        messageObject.GetComponent<Message>().InitiateMessageFor(person, message);
         _visibleMessages.Add(messageObject);
+
+        if (person is Player)
+            GameManager.Instance.CurrentPartner.Chat.Add(new AiToolbox.Message(message, Role.User));
+        else if (person is Partner)
+            GameManager.Instance.CurrentPartner.Chat.Add(new AiToolbox.Message(message, Role.AI));
     }
 
     private void SendMessageToPartner()
@@ -90,6 +124,22 @@ public class Messanger : MonoBehaviour
         );
     }
 
+    /// <summary>
+    /// /////////////////////////////////////////////////////
+    /// </summary>
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            GameManager.Instance.CurrentPartner.Chat.Clear();
+
+            ClearChat();
+
+            _isInitiated = false;
+        }
+    }
+    /////////////////////////////////////////////////////////
+
     private void OnDisable()
     {
         ClearChat();
@@ -99,7 +149,7 @@ public class Messanger : MonoBehaviour
     {
         foreach (Transform message in _visibleMessages)
         {
-            Destroy(message);
+            Destroy(message.gameObject);
         }
 
         _visibleMessages.Clear();

@@ -14,7 +14,7 @@ public class Message : MonoBehaviour
     [SerializeField] Color _playerBackgroundMessageColor;
     [SerializeField] Color _partnerBackgroundMessageColor;
 
-    public void InitiateMessage(Person person, string message)
+    public void InitiateMessageFor(Person person, string message)
     {
         _personIcon.sprite = person.FaceSprite;
         _text.text = message;
