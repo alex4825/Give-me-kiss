@@ -8,6 +8,7 @@ using System.Security.Cryptography;
 using UnityEditor.VersionControl;
 using System.IO;
 using TreeEditor;
+using Newtonsoft.Json;
 
 public class Messanger : MonoBehaviour
 {
@@ -64,14 +65,10 @@ public class Messanger : MonoBehaviour
             if (message.text.Contains("_INSTRUCT"))
                 continue;
 
-            Transform messageObject = Instantiate(_messagePrefab, _messangesContainer);
-
             if (message.role == Role.User)
-                messageObject.GetComponent<Message>().InitiateMessageFor(GameManager.Instance.Player, message.text);
+                WriteMessageToContainerFrom(GameManager.Instance.Player, message.text);
             else if (message.role == Role.AI)
-                messageObject.GetComponent<Message>().InitiateMessageFor(GameManager.Instance.CurrentPartner, message.text);
-
-            _visibleMessages.Add(messageObject);
+                WriteMessageToContainerFrom(GameManager.Instance.CurrentPartner, message.text);
         }
     }
 
@@ -97,13 +94,28 @@ public class Messanger : MonoBehaviour
     private void WriteMessageToContainerFrom(Person person, string message)
     {
         Transform messageObject = Instantiate(_messagePrefab, _messangesContainer);
-        messageObject.GetComponent<Message>().InitiateMessageFor(person, message);
-        _visibleMessages.Add(messageObject);
 
         if (person is Player)
+        {
             GameManager.Instance.CurrentPartner.Chat.Add(new AiToolbox.Message(message, Role.User));
+        }
         else if (person is Partner)
+        {
+            if (message.StartsWith("{") && message.EndsWith("}"))
+            {
+                AiMessageData messageData = JsonConvert.DeserializeObject<AiMessageData>(message);
+                message = messageData.Message;
+            }
+            else
+            {
+                Debug.LogWarning("Получено не JSON-сообщение: " + message);
+            }
+
             GameManager.Instance.CurrentPartner.Chat.Add(new AiToolbox.Message(message, Role.AI));
+        }
+
+        messageObject.GetComponent<Message>().InitiateMessageFor(person, message);
+        _visibleMessages.Add(messageObject);
     }
 
     private void SendMessageToPartner()
