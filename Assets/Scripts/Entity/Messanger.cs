@@ -25,7 +25,7 @@ public class Messanger : MonoBehaviour
     {
         _gptParameters = new ChatGptParameters("")
         {
-            model = ChatGptModel.Gpt4Turbo,
+            model = ChatGptModel.Gpt35Turbo,
             temperature = 0.5f
         };
 
@@ -54,7 +54,6 @@ public class Messanger : MonoBehaviour
         initiateMessage += aboutAmotions + aboutCurrentPartner + closingMessage;
         Debug.Log($"Initial message for {GameManager.Instance.CurrentPartner.OriginName} is:\n {initiateMessage}");
 
-
         return initiateMessage;
     }
 
@@ -72,7 +71,7 @@ public class Messanger : MonoBehaviour
         }
     }
 
-    public void WritePlayerMessageFromInput()
+    public void SendPlayerMessageFromInput()
     {
         string message = _inputField.text;
 
@@ -87,6 +86,8 @@ public class Messanger : MonoBehaviour
                 _isInitiated = true;
             }
 
+            GameManager.Instance.CurrentPartner.Chat.Add(new AiToolbox.Message(message, Role.User));
+
             SendMessageToPartner();
         }
     }
@@ -95,7 +96,7 @@ public class Messanger : MonoBehaviour
     {
         Transform messageObject = Instantiate(_messagePrefab, _messangesContainer);
 
-        if (person is Player)
+        /*if (person is Player)
         {
             GameManager.Instance.CurrentPartner.Chat.Add(new AiToolbox.Message(message, Role.User));
         }
@@ -112,7 +113,7 @@ public class Messanger : MonoBehaviour
             }
 
             GameManager.Instance.CurrentPartner.Chat.Add(new AiToolbox.Message(message, Role.AI));
-        }
+        }*/
 
         messageObject.GetComponent<Message>().InitiateMessageFor(person, message);
         _visibleMessages.Add(messageObject);
@@ -128,6 +129,7 @@ public class Messanger : MonoBehaviour
             response =>
             {
                 WriteMessageToContainerFrom(currentPartner, response);
+                GameManager.Instance.CurrentPartner.Chat.Add(new AiToolbox.Message(response, Role.AI));
             },
             (errorCode, errorMessage) =>
             {
