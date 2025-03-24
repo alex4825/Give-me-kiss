@@ -13,7 +13,6 @@ public class PartnerManager : SingletonPersistent<PartnerManager>
         base.Awake();
 
         InitiateCharactersFromDataFile();
-        DebugInformer.ShowStringFrom<Partner>(Partners);
     }
 
     private void InitiateCharactersFromDataFile()
@@ -27,6 +26,8 @@ public class PartnerManager : SingletonPersistent<PartnerManager>
             string characterOriginName = pair.Key;
 
             Partners.Add(new Partner(characterOriginName, partnerData));
+
+            DebugInformer.ShowStringFrom<Partner>(Partners);
         }
     }
 }

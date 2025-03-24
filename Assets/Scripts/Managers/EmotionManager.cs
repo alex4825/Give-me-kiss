@@ -13,7 +13,6 @@ public class EmotionManager : SingletonPersistent<EmotionManager>
         base.Awake();
 
         InitiateAmotions();
-        DebugInformer.ShowStringFrom<Emotion>(Emotions);
     }
 
 

@@ -40,6 +40,7 @@ public class Chat
         }
         else
         {
+            History = new();
             SaveHistory(); //create new file
             return new List<AiToolbox.Message>();
         }

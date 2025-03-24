@@ -23,7 +23,7 @@ public class Messanger : MonoBehaviour
 
     private void Awake()
     {
-        _gptParameters = new ChatGptParameters("")
+        _gptParameters = new ChatGptParameters("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")
         {
             model = ChatGptModel.Gpt35Turbo,
             temperature = 0.5f

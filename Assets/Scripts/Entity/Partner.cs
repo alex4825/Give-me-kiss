@@ -25,6 +25,6 @@ public class Partner : Person
 
     public override string ToString()
     {
-        return $"Имя: {Name}, Возраст: {Age}, Рост: {Height}, История персонажа: {AboutSelf}";
+        return $"Имя: {Name}, Возраст: {Age}, Рост: {Height}, Описание персонажа: {AboutSelf}";
     }
 }

@@ -18,9 +18,6 @@ public class PartnerData : MonoBehaviour
     [JsonProperty("aboutSelf")]
     private string _aboutSelf;
 
-    [JsonProperty("dialogData")]
-    private string _dialogData;
-
     public string Name => _name;
 
     public int Age => _age;
@@ -28,7 +25,5 @@ public class PartnerData : MonoBehaviour
     public int Height => _height;
 
     public string AboutSelf => _aboutSelf;
-
-    public string DialogData => _dialogData;
 
 }
