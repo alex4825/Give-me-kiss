@@ -19,6 +19,12 @@ public class ButtonAnimator : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         _buttonImage.color = _normalColor;
     }
 
+    private void OnDisable()
+    {
+        _buttonImage.color = _normalColor;
+        transform.localScale = Vector3.one;
+    }
+
     public void OnPointerEnter(PointerEventData eventData)
     {
         _buttonImage.DOColor(_enterColor, _duration);

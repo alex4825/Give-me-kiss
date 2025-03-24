@@ -19,24 +19,41 @@ public class GameManager : SingletonPersistent<GameManager>
 
         Player = new Player();
         CurrentPartner = null;
-        CurrentGameState = GameState.ChoosingPartner;
-        _partnerSelectionMenu.gameObject.SetActive(true);
+        UpdateGameModeFrom(GameState.ChoosingPartner);
 
         Card.OnPartnerChoosen += Card_OnPartnerChoosen;
+        Messanger.OnButtonBackPressed += Messanger_OnButtonBackPressed;
+    }
+
+    private void Messanger_OnButtonBackPressed()
+    {
+        CurrentPartner = null;
+        UpdateGameModeFrom(GameState.ChoosingPartner);
     }
 
     private void Card_OnPartnerChoosen(Partner partner)
     {
         CurrentPartner = partner;
-        OpenMessengerWith(partner);
+        UpdateGameModeFrom(GameState.Messenger);
     }
 
-    private void OpenMessengerWith(Partner partner)
+    private void UpdateGameModeFrom(GameState state)
     {
-        CurrentGameState = GameState.Messenger;
+        CurrentGameState = state;
 
         _partnerSelectionMenu.gameObject.SetActive(false);
-        _messengerMenu.gameObject.SetActive(true);
+        _messengerMenu.gameObject.SetActive(false);
+
+        switch (state)
+        {
+            case GameState.Messenger:
+                _messengerMenu.gameObject.SetActive(true);
+                break;
+
+            case GameState.ChoosingPartner:
+                _partnerSelectionMenu.gameObject.SetActive(true);
+                break;
+        }
     }
 
     private void OnDestroy()

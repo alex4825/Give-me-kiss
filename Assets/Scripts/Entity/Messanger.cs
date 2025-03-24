@@ -13,6 +13,7 @@ using Newtonsoft.Json;
 public class Messanger : MonoBehaviour
 {
     [SerializeField] private Transform _messangesContainer;
+    [SerializeField] private Transform _buttonBack;
     [SerializeField] private Transform _messagePrefab;
     [SerializeField] private TMP_InputField _inputField;
 
@@ -20,6 +21,8 @@ public class Messanger : MonoBehaviour
     private List<Transform> _visibleMessages;
     private string _initialMessage;
     private bool _isInitiated;
+
+    public static event Action OnButtonBackPressed;
 
     private void Awake()
     {
@@ -136,6 +139,11 @@ public class Messanger : MonoBehaviour
                 Debug.LogError($"Error receiving a response from {currentPartner.Name}.\n {errorCode}: {errorMessage}");
             }
         );
+    }
+
+    public void GoToPartnerChoosing()
+    {
+        OnButtonBackPressed?.Invoke();
     }
 
     /// <summary>
