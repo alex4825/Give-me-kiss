@@ -33,7 +33,6 @@ public class Messanger : MonoBehaviour
         };
 
         _visibleMessages = new List<Transform>();
-        _initialMessage = GetInitiateMessage();
     }
 
     private void OnEnable()
@@ -43,6 +42,10 @@ public class Messanger : MonoBehaviour
         if (_isInitiated)
         {
             FillContainerFromChatHistory();
+        }
+        else
+        {
+            _initialMessage = GetInitiateMessage();
         }
     }
 
@@ -99,11 +102,7 @@ public class Messanger : MonoBehaviour
     {
         Transform messageObject = Instantiate(_messagePrefab, _messangesContainer);
 
-        /*if (person is Player)
-        {
-            GameManager.Instance.CurrentPartner.Chat.Add(new AiToolbox.Message(message, Role.User));
-        }
-        else if (person is Partner)
+        if (person is Partner)
         {
             if (message.StartsWith("{") && message.EndsWith("}"))
             {
@@ -114,9 +113,7 @@ public class Messanger : MonoBehaviour
             {
                 Debug.LogWarning("Получено не JSON-сообщение: " + message);
             }
-
-            GameManager.Instance.CurrentPartner.Chat.Add(new AiToolbox.Message(message, Role.AI));
-        }*/
+        }
 
         messageObject.GetComponent<Message>().InitiateMessageFor(person, message);
         _visibleMessages.Add(messageObject);
