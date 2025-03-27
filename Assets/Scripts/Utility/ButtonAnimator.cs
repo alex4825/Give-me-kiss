@@ -14,9 +14,12 @@ public class ButtonAnimator : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     [SerializeField] private float _enterScale;
     [SerializeField] private float _duration = 0.2f;
 
+    private float _initialScale;
+
     private void Start()
     {
         _buttonImage.color = _normalColor;
+        _initialScale = transform.localScale.x;
     }
 
     private void OnDisable()
@@ -34,7 +37,7 @@ public class ButtonAnimator : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     public void OnPointerExit(PointerEventData eventData)
     {
         _buttonImage.DOColor(_normalColor, _duration);
-        transform.DOScale(1, _duration);
+        transform.DOScale(_initialScale, _duration);
     }
 
 }
