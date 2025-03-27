@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class PartnerManager : SingletonPersistent<PartnerManager>
 {
-    [SerializeField] private string _resourcesCharactersFileName;
-
     public List<Partner> Partners { get; private set; }
 
     protected override void Awake()

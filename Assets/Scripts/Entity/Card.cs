@@ -13,6 +13,7 @@ public class Card : MonoBehaviour
     [SerializeField] private Image _backgroundImage;
     [SerializeField] private TextMeshProUGUI _characterDescription;
     [SerializeField] private ButtonHandler _thisButtonHandler;
+    [SerializeField] private SympathyBar _sympathyBar;
 
     private Partner _partner;
 
@@ -21,6 +22,7 @@ public class Card : MonoBehaviour
     private void Awake()
     {
         _thisButtonHandler.OnClick += Card_OnCardClicked;
+        _partner.OnSympathyChanged += UpdateSympathyBar;
     }
 
     private void Card_OnCardClicked()
@@ -34,5 +36,11 @@ public class Card : MonoBehaviour
         _characterImage.sprite = _partner.FaceSprite;
         _backgroundImage.color = partner.BasicColor;
         _characterDescription.text = $"{_partner.Name}, {_partner.Age} {StringResolver.GetYearSuffix(_partner.Age)}. {_partner.ShortAboutSelf}";
+        _sympathyBar.SetFillAmount(partner.Sympathy);
+    }
+
+    public void UpdateSympathyBar(float value)
+    {
+        _sympathyBar.SetFillAmount(value);
     }
 }

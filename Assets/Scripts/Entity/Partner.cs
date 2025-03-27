@@ -1,11 +1,16 @@
+using Newtonsoft.Json;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 
 [Serializable]
 public class Partner : Person
 {
+    private string _filePath;
+    private string SympathyFilePostfix = "_sympathy.json";
+
     public Partner(PartnerData partnerData)
     {
         OriginName = partnerData.OriginName;
@@ -18,7 +23,13 @@ public class Partner : Person
         AppearanceSprite = FileManager.Instance.LoadCharacterSpriteBy($"{OriginName}_full");
         BasicColor = partnerData.BasicColor;
         Chat = new Chat(this);
+
+        _filePath = Path.Combine(Application.persistentDataPath, OriginName + SympathyFilePostfix);
+
+        Sympathy = LoadSympathyFromFile();
     }
+
+    public event Action<float> OnSympathyChanged;
 
     public int Age { get; private set; }
     public int Height { get; private set; }
@@ -31,6 +42,7 @@ public class Partner : Person
     public void AddSympathyFrom(Emotion emotion)
     {
         Sympathy += emotion.Strength;
+        SaveSympathyToFile();
 
         if (Sympathy > 100)
         {
@@ -40,8 +52,26 @@ public class Partner : Person
         {
             Sympathy = -100;
         }
+
+        OnSympathyChanged?.Invoke(Sympathy);
     }
 
+    private float LoadSympathyFromFile()
+    {
+        if (File.Exists(_filePath))
+        {
+            string json = File.ReadAllText(_filePath);
+            float sympathyValue = JsonConvert.DeserializeObject<float>(json);
+            return sympathyValue;
+        }
+
+        return 0;
+    }
+
+    private void SaveSympathyToFile()
+    {
+        File.WriteAllText(_filePath, Sympathy.ToString());
+    }
 
     public override string ToString()
     {

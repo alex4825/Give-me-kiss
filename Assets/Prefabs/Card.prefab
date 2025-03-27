@@ -140,7 +140,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 75.31619, y: 0}
+  m_AnchoredPosition: {x: 75.31619, y: 6.7}
   m_SizeDelta: {x: 140.6324, y: 24.7328}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!222 &8293543516705758757
@@ -253,6 +253,7 @@ GameObject:
   - component: {fileID: 2339815746621657217}
   - component: {fileID: 4291898396646013735}
   - component: {fileID: 632249696688078156}
+  - component: {fileID: 7387303957923841515}
   m_Layer: 5
   m_Name: SympathyBar
   m_TagString: Untagged
@@ -277,7 +278,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -5, y: 3.9169998}
+  m_AnchoredPosition: {x: -5, y: 7.03}
   m_SizeDelta: {x: 195, y: 21.083}
   m_Pivot: {x: 1, y: 0}
 --- !u!222 &748213038760392463
@@ -347,6 +348,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   radius: 15
   image: {fileID: 2339815746621657217}
+--- !u!114 &7387303957923841515
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5242462712412800766}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89c523efeee20f143a186e098b9702a8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _barImage: {fileID: 3258012886852708061}
 --- !u!1 &5762514244215198855
 GameObject:
   m_ObjectHideFlags: 0
@@ -418,7 +432,7 @@ MonoBehaviour:
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 0
-  m_FillAmount: 0.559
+  m_FillAmount: 0.379
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
@@ -493,9 +507,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _characterImage: {fileID: 7717091935836242684}
   _backgroundImage: {fileID: 774260106612392295}
-  _sympathyBarImage: {fileID: 2339815746621657217}
   _characterDescription: {fileID: 9111562225748877277}
   _thisButtonHandler: {fileID: 3485154611522028535}
+  _sympathyBar: {fileID: 7387303957923841515}
 --- !u!114 &3485154611522028535
 MonoBehaviour:
   m_ObjectHideFlags: 0

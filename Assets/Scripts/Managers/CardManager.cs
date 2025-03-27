@@ -6,7 +6,7 @@ using UnityEngine.TextCore.Text;
 public class CardManager : SingletonPersistent<CardManager>
 {
     [SerializeField] private Transform _cardContainer;
-    [SerializeField] private GameObject _cardPrefab;
+    [SerializeField] private Card _cardPrefab;
 
     private List<Partner> _partners;
 
@@ -26,8 +26,8 @@ public class CardManager : SingletonPersistent<CardManager>
 
         foreach (Partner partner in _partners)
         {
-            GameObject cardGameObject = Instantiate(_cardPrefab, _cardContainer);
-            cardGameObject.GetComponent<Card>().Initiate(partner);
+            Card card = Instantiate(_cardPrefab, _cardContainer);
+            card.Initiate(partner);
         }
     }
 }
