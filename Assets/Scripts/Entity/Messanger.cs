@@ -72,49 +72,51 @@ public class Messanger : MonoBehaviour
 
     private void FillContainerFromChatHistory()
     {
-        foreach (var message in GameManager.Instance.CurrentPartner.Chat.History)
+        List<AiToolbox.Message> messages = GameManager.Instance.CurrentPartner.Chat.History;
+
+        foreach (AiToolbox.Message message in messages)
         {
             if (message.text.Contains("_INSTRUCT"))
                 continue;
 
             if (message.role == Role.User)
-                WriteMessageToContainerFrom(GameManager.Instance.Player, message.text);
+                WriteMessageToContainerFrom(GameManager.Instance.Player, message);
             else if (message.role == Role.AI)
-                WriteMessageToContainerFrom(GameManager.Instance.CurrentPartner, message.text);
+                WriteMessageToContainerFrom(GameManager.Instance.CurrentPartner, message);
         }
     }
 
     public void SendPlayerMessageFromInput()
     {
-        string message = _inputField.text;
+        string messageText = _inputField.text;
 
-        if (!string.IsNullOrWhiteSpace(message))
+        if (!string.IsNullOrWhiteSpace(messageText))
         {
-            WriteMessageToContainerFrom(GameManager.Instance.Player, message);
+            WriteMessageToContainerFrom(GameManager.Instance.Player, new AiToolbox.Message(messageText, Role.User));
             _inputField.text = string.Empty;
 
             if (_isInitiated == false)
             {
-                GameManager.Instance.CurrentPartner.Chat.Add(new AiToolbox.Message(_initialMessage, Role.User));
+                GameManager.Instance.CurrentPartner.Chat.Add(new AiToolbox.Message(messageText, Role.User));
                 _isInitiated = true;
             }
 
-            GameManager.Instance.CurrentPartner.Chat.Add(new AiToolbox.Message(message, Role.User));
+            GameManager.Instance.CurrentPartner.Chat.Add(new AiToolbox.Message(messageText, Role.User));
 
             SendMessageToPartner();
         }
     }
 
-    private void WriteMessageToContainerFrom(Person person, string message)
+    private void WriteMessageToContainerFrom(Person person, AiToolbox.Message message)
     {
         Transform messageObject = Instantiate(_messagePrefab, _messangesContainer);
 
         if (person is Partner)
         {
-            if (message.StartsWith("{") && message.EndsWith("}"))
+            if (message.text.StartsWith("{") && message.text.EndsWith("}"))
             {
-                AiMessageData messageData = JsonConvert.DeserializeObject<AiMessageData>(message);
-                message = messageData.Message;
+                AiMessageData messageData = JsonConvert.DeserializeObject<AiMessageData>(message.text);
+                message.text = messageData.Message;
             }
             else
             {
@@ -122,7 +124,7 @@ public class Messanger : MonoBehaviour
             }
         }
 
-        messageObject.GetComponent<Message>().InitiateMessageFor(person, message);
+        messageObject.GetComponent<MessageObject>().InitiateMessageFor(person, message);
         _visibleMessages.Add(messageObject);
     }
 
@@ -135,7 +137,7 @@ public class Messanger : MonoBehaviour
             _gptParameters,
             response =>
             {
-                WriteMessageToContainerFrom(currentPartner, response);
+                WriteMessageToContainerFrom(currentPartner, new AiToolbox.Message(response, Role.AI));
                 GameManager.Instance.CurrentPartner.Chat.Add(new AiToolbox.Message(response, Role.AI));
             },
             (errorCode, errorMessage) =>

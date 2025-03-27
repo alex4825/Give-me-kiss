@@ -26,6 +26,23 @@ public class Partner : Person
     public string AboutSelf { get; private set; }
     public Chat Chat { get; private set; }
     public Color BasicColor { get; private set; }
+    public float Sympathy { get; private set; }
+
+    public void AddSympathyFrom(Emotion emotion)
+    {
+        Sympathy += emotion.Strength;
+
+        if (Sympathy > 100)
+        {
+            Sympathy = 100;
+        }
+        else if (Sympathy < 100)
+        {
+            Sympathy = -100;
+        }
+    }
+
+
     public override string ToString()
     {
         return $"Имя: {Name}, Возраст: {Age}, Рост: {Height}, Кратко о себе: {ShortAboutSelf}, Описание персонажа: {AboutSelf}";

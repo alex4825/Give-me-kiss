@@ -5,7 +5,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Message : MonoBehaviour
+public class MessageObject : MonoBehaviour
 {
     [SerializeField] Image _personIcon;
     [SerializeField] TextMeshProUGUI _text;
@@ -14,11 +14,11 @@ public class Message : MonoBehaviour
     [SerializeField] Color _playerBackgroundMessageColor;
     [SerializeField] Color _partnerBackgroundMessageColor;
 
-    public void InitiateMessageFor(Person person, string message)
+    public void InitiateMessageFor(Person person, AiToolbox.Message message)
     {
         _personIcon.sprite = person.FaceSprite;
-        _text.text = message;
-        _date.text = DateTime.Now.ToString("yyyy.MM.dd HH:mm");
+        _text.text = message.text;
+        _date.text = message.date; //DateTime.Now.ToString("yyyy.MM.dd HH:mm")
 
         if (person is Player)
         {
