@@ -14,11 +14,11 @@ public class Messanger : MonoBehaviour
 {
     [SerializeField] private Transform _messangesContainer;
     [SerializeField] private ButtonHandler _backButton;
-    [SerializeField] private Transform _messagePrefab;
+    [SerializeField] private MessageObject _messagePrefab;
     [SerializeField] private TMP_InputField _inputField;
 
     private ChatGptParameters _gptParameters;
-    private List<Transform> _visibleMessages;
+    private List<MessageObject> _visibleMessages;
     private string _initialMessage;
     private bool _isInitiated;
 
@@ -32,7 +32,7 @@ public class Messanger : MonoBehaviour
             temperature = 0.5f
         };
 
-        _visibleMessages = new List<Transform>();
+        _visibleMessages = new List<MessageObject>();
 
         _backButton.OnClick += BackButton_OnClick;
     }
@@ -48,7 +48,7 @@ public class Messanger : MonoBehaviour
         }
         else
         {
-            _initialMessage = GetInitiateMessage();
+            _initialMessage = GetInitialMessage();
         }
     }
     private void BackButton_OnClick()
@@ -56,7 +56,7 @@ public class Messanger : MonoBehaviour
         OnBackButtonClicked?.Invoke();
     }
 
-    private string GetInitiateMessage()
+    private string GetInitialMessage()
     {
         string initiateMessage = FileManager.Instance.LoadInitialInstructionsToAI();
 
@@ -97,7 +97,7 @@ public class Messanger : MonoBehaviour
 
             if (_isInitiated == false)
             {
-                GameManager.Instance.CurrentPartner.Chat.Add(new AiToolbox.Message(messageText, Role.User));
+                GameManager.Instance.CurrentPartner.Chat.Add(new AiToolbox.Message(_initialMessage, Role.User));
                 _isInitiated = true;
             }
 
@@ -109,7 +109,7 @@ public class Messanger : MonoBehaviour
 
     private void WriteMessageToContainerFrom(Person person, AiToolbox.Message message)
     {
-        Transform messageObject = Instantiate(_messagePrefab, _messangesContainer);
+        MessageObject messageObject = Instantiate(_messagePrefab, _messangesContainer);
 
         if (person is Partner)
         {
@@ -124,7 +124,7 @@ public class Messanger : MonoBehaviour
             }
         }
 
-        messageObject.GetComponent<MessageObject>().InitiateMessageFor(person, message);
+        messageObject.InitiateMessageFor(person, message);
         _visibleMessages.Add(messageObject);
     }
 
@@ -170,7 +170,7 @@ public class Messanger : MonoBehaviour
 
     private void ClearChat()
     {
-        foreach (Transform message in _visibleMessages)
+        foreach (MessageObject message in _visibleMessages)
         {
             Destroy(message.gameObject);
         }

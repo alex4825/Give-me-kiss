@@ -12,10 +12,10 @@ public class PartnerManager : SingletonPersistent<PartnerManager>
     {
         base.Awake();
 
-        InitiateCharactersFromDataFile();
+        InitiatePartnersFromDataFile();
     }
 
-    private void InitiateCharactersFromDataFile()
+    private void InitiatePartnersFromDataFile()
     {
         Partners = new List<Partner>();
         List<PartnerData>  partnersData = FileManager.Instance.JsonToPartnerDataList();
