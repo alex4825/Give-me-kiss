@@ -4,8 +4,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 using UnityEngine.EventSystems;
+using System;
 
-public class ButtonAnimator : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class ButtonHandler : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
     [SerializeField] private Image _buttonImage;
 
@@ -15,6 +16,8 @@ public class ButtonAnimator : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     [SerializeField] private float _duration = 0.2f;
 
     private float _initialScale;
+
+    public event Action OnClick;
 
     private void Start()
     {
@@ -38,6 +41,12 @@ public class ButtonAnimator : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     {
         _buttonImage.DOColor(_normalColor, _duration);
         transform.DOScale(_initialScale, _duration);
+    }
+
+    public void OnPointerClick(PointerEventData pointerEventData)
+    {
+        OnClick?.Invoke();
+        Debug.Log($"Button {gameObject.name} clicked.");
     }
 
 }

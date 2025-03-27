@@ -22,17 +22,24 @@ public class GameManager : SingletonPersistent<GameManager>
         CurrentPartner = null;
         UpdateGameModeFrom(GameState.MainMenu);
 
-        Card.OnPartnerChoosen += Card_OnPartnerChoosen;
-        Messanger.OnButtonBackPressed += Messanger_OnButtonBackPressed;
+        Card.OnPartnerChoosen += OpenMessenger;
+        Messanger.OnBackButtonClicked += OpenChoosingPartnerMenu;
+        MainMenu.OnPlayButtonClicked += OpenChoosingPartnerMenu;
+        PartnerSelectionMenu.OnBackButtonClicked += OpenMainMenu;
     }
 
-    private void Messanger_OnButtonBackPressed()
+    private void OpenMainMenu()
+    {
+        UpdateGameModeFrom(GameState.MainMenu);
+    }
+
+    private void OpenChoosingPartnerMenu()
     {
         CurrentPartner = null;
         UpdateGameModeFrom(GameState.ChoosingPartner);
     }
 
-    private void Card_OnPartnerChoosen(Partner partner)
+    private void OpenMessenger(Partner partner)
     {
         CurrentPartner = partner;
         UpdateGameModeFrom(GameState.Messenger);
@@ -62,8 +69,4 @@ public class GameManager : SingletonPersistent<GameManager>
         }
     }
 
-    private void OnDestroy()
-    {
-        Card.OnPartnerChoosen -= Card_OnPartnerChoosen;
-    }
 }

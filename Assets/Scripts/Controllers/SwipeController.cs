@@ -5,18 +5,16 @@ using UnityEngine.UI;
 
 public class SwipeController : MonoBehaviour
 {
+    [SerializeField] private RectTransform _scroller;
     [SerializeField] private RectTransform _cardContainer;
     [SerializeField] private HorizontalLayoutGroup _horizontalLayoutGroup;
-    [SerializeField] private RectTransform _card;
     [SerializeField] private float _swipeTime;
     [SerializeField] private Ease _easeType;
 
-    private float _swipeLenght;
     [SerializeField] private float _swipeTimer;
 
     private void Awake()
     {
-        _swipeLenght = _card.rect.width + _horizontalLayoutGroup.spacing;
         _swipeTimer = _swipeTime;
     }
 
@@ -42,10 +40,12 @@ public class SwipeController : MonoBehaviour
     {
         float targetPositionX;
 
+        float swipeLenght = _cardContainer.rect.height * _scroller.localScale.y;
+
         if (toRight)
-            targetPositionX = _cardContainer.position.x - _swipeLenght;
+            targetPositionX = _cardContainer.position.x - swipeLenght;
         else
-            targetPositionX = _cardContainer.position.x + _swipeLenght;
+            targetPositionX = _cardContainer.position.x + swipeLenght;
 
         /*if (targetPositionX % _swipeLenght != 0)
         {
