@@ -10,6 +10,7 @@ using UnityEngine.UI;
 public class Card : MonoBehaviour
 {
     [SerializeField] private Image _characterImage;
+    [SerializeField] private Image _backgroundImage;
     [SerializeField] private TextMeshProUGUI _characterDescription;
     [SerializeField] private ButtonHandler _thisButtonHandler;
 
@@ -31,6 +32,7 @@ public class Card : MonoBehaviour
     {
         _partner = partner;
         _characterImage.sprite = _partner.FaceSprite;
+        _backgroundImage.color = partner.BasicColor;
         _characterDescription.text = $"{_partner.Name}, {_partner.Age} {StringResolver.GetYearSuffix(_partner.Age)}. {_partner.ShortAboutSelf}";
     }
 }

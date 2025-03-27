@@ -7,12 +7,8 @@ using UnityEngine;
 public class PlayerData : MonoBehaviour
 {
     [JsonProperty("originName")]
-    private string _originName;
-    
+    public string OriginName { get; private set; }
+
     [JsonProperty("name")]
-    private string _name;
-
-    public string OriginName => _originName;
-
-    public string Name => _name;
+    public string Name { get; private set; }
 }

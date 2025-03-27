@@ -27,9 +27,9 @@ public class FileManager : Singleton<FileManager>
     public List<EmotionData> JsonToEmotionDataList()
     => JsonToListBy<EmotionData>(JsonDataFolder + EmotionsDataJsonFileName);
 
-    public Dictionary<string, PartnerData> JsonToPartnerDataDictionary()
-    => JsonToDictionaryBy<PartnerData>(JsonDataFolder + PartnersDataJsonFileName);
-
+    public List<PartnerData> JsonToPartnerDataList()
+    => JsonToListBy<PartnerData>(JsonDataFolder + PartnersDataJsonFileName);
+        
     public Sprite LoadCharacterSpriteBy(string originName)
     => LoadSpriteBy(CharactersSpritesFolder + originName);
 

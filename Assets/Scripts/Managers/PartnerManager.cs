@@ -18,15 +18,11 @@ public class PartnerManager : SingletonPersistent<PartnerManager>
     private void InitiateCharactersFromDataFile()
     {
         Partners = new List<Partner>();
-        Dictionary<string, PartnerData>  partnersData = FileManager.Instance.JsonToPartnerDataDictionary();
+        List<PartnerData>  partnersData = FileManager.Instance.JsonToPartnerDataList();
 
-        foreach (var pair in partnersData)
+        foreach (var partnerData in partnersData)
         {
-            PartnerData partnerData = pair.Value;
-            string characterOriginName = pair.Key;
-
-            Partners.Add(new Partner(characterOriginName, partnerData));
-
+            Partners.Add(new Partner(partnerData));
         }
 
         DebugInformer.ShowStringFrom<Partner>(Partners);

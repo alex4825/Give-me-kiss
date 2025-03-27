@@ -6,25 +6,40 @@ using UnityEngine;
 [System.Serializable]
 public class PartnerData : MonoBehaviour
 {
+    [JsonProperty("basicColor")]
+    private string HexColor
+    {
+        get => ColorUtility.ToHtmlStringRGBA(BasicColor);
+        set
+        {
+            if (ColorUtility.TryParseHtmlString("#" + value, out var color))
+            {
+                BasicColor = color;
+            }
+            else
+            {
+                BasicColor = Color.white;
+            }
+        }
+    }
+    [JsonProperty("originName")]
+    public string OriginName { get; private set; }
+
     [JsonProperty("name")]
-    private string _name;
-    
+    public string Name { get; private set; }
+
     [JsonProperty("age")]
-    private int _age;
+    public int Age { get; private set; }
 
     [JsonProperty("height")]
-    private int _height;
+    public int Height { get; private set; }
 
     [JsonProperty("shortAboutSelf")]
-    private string _shortAboutSelf;
+    public string ShortAboutSelf { get; private set; }
 
     [JsonProperty("aboutSelf")]
-    private string _aboutSelf;
+    public string AboutSelf { get; private set; }
 
-    public string Name => _name;
-    public int Age => _age;
-    public int Height => _height;
-    public string ShortAboutSelf => _shortAboutSelf;
-    public string AboutSelf => _aboutSelf;
+    public Color BasicColor { get; private set; }
 
 }

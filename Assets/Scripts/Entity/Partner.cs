@@ -6,9 +6,9 @@ using UnityEngine;
 [Serializable]
 public class Partner : Person
 {
-    public Partner(string originName, PartnerData partnerData)
+    public Partner(PartnerData partnerData)
     {
-        OriginName = originName;
+        OriginName = partnerData.OriginName;
         Name = partnerData.Name;
         Age = partnerData.Age;
         Height = partnerData.Height;
@@ -16,6 +16,7 @@ public class Partner : Person
         ShortAboutSelf = partnerData.ShortAboutSelf;
         FaceSprite = FileManager.Instance.LoadCharacterSpriteBy($"{OriginName}_face");
         AppearanceSprite = FileManager.Instance.LoadCharacterSpriteBy($"{OriginName}_full");
+        BasicColor = partnerData.BasicColor;
         Chat = new Chat(this);
     }
 
@@ -24,7 +25,7 @@ public class Partner : Person
     public string ShortAboutSelf { get; private set; }
     public string AboutSelf { get; private set; }
     public Chat Chat { get; private set; }
-
+    public Color BasicColor { get; private set; }
     public override string ToString()
     {
         return $"Имя: {Name}, Возраст: {Age}, Рост: {Height}, Кратко о себе: {ShortAboutSelf}, Описание персонажа: {AboutSelf}";
