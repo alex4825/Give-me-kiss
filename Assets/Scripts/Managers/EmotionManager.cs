@@ -13,20 +13,19 @@ public class EmotionManager : SingletonPersistent<EmotionManager>
         base.Awake();
 
         InitiateAmotions();
+
+        Debug.Log("Эмоции:" + GetEmotionsInString());
     }
 
 
     private void InitiateAmotions()
     {
         Emotions = new List<Emotion>();
-        Dictionary<string, EmotionData> emotionsData = FileManager.Instance.JsonToEmotionDataDictionary();
+        List<EmotionData> emotionsData = FileManager.Instance.JsonToEmotionDataList();
 
-        foreach (var pair in emotionsData)
+        foreach (var emotionData in emotionsData)
         {
-            EmotionData emotionData = pair.Value;
-            string emotionOriginName = pair.Key;
-
-            Emotions.Add(new Emotion(emotionOriginName, emotionData));
+            Emotions.Add(new Emotion(emotionData));
         }
     }
 

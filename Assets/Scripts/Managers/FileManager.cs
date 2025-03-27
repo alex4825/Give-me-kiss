@@ -24,8 +24,8 @@ public class FileManager : Singleton<FileManager>
     public string LoadInitialInstructionsToAI()
         => LoadTxtInString(TextDataFolder + InitialInstructionsToAITxtFileName);
 
-    public Dictionary<string, EmotionData> JsonToEmotionDataDictionary()
-    => JsonToDictionaryBy<EmotionData>(JsonDataFolder + EmotionsDataJsonFileName);
+    public List<EmotionData> JsonToEmotionDataList()
+    => JsonToListBy<EmotionData>(JsonDataFolder + EmotionsDataJsonFileName);
 
     public Dictionary<string, PartnerData> JsonToPartnerDataDictionary()
     => JsonToDictionaryBy<PartnerData>(JsonDataFolder + PartnersDataJsonFileName);
@@ -55,6 +55,24 @@ public class FileManager : Singleton<FileManager>
         }
 
         return keyValuePairs;
+    }
+
+    private List<T> JsonToListBy<T>(string resourcesJsonFile)
+    {
+        List<T> list = new List<T>();
+
+        TextAsset jsonFile = Resources.Load<TextAsset>(resourcesJsonFile);
+
+        if (jsonFile != null)
+        {
+            list = JsonConvert.DeserializeObject<List<T>>(jsonFile.text);
+        }
+        else
+        {
+            Debug.LogError($"File Resources/{resourcesJsonFile}.json doesn't exist!");
+        }
+
+        return list;
     }
 
     private T JsonToObjectBy<T>(string resourcesJsonFile)

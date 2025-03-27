@@ -22,7 +22,7 @@ public class GameManager : SingletonPersistent<GameManager>
         CurrentPartner = null;
         UpdateGameModeFrom(GameState.MainMenu);
 
-        Card.OnPartnerChoosen += OpenMessenger;
+        Card.OnCardClicked += OpenMessenger;
         Messanger.OnBackButtonClicked += OpenChoosingPartnerMenu;
         MainMenu.OnPlayButtonClicked += OpenChoosingPartnerMenu;
         PartnerSelectionMenu.OnBackButtonClicked += OpenMainMenu;
