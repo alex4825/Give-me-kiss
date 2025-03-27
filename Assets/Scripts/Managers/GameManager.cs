@@ -6,6 +6,7 @@ public class GameManager : SingletonPersistent<GameManager>
 {
     [SerializeField] private Transform _partnerSelectionMenu;
     [SerializeField] private Transform _messengerMenu;
+    [SerializeField] private Transform _mainMenu;
 
     public GameState CurrentGameState { get; private set; }
 
@@ -19,7 +20,7 @@ public class GameManager : SingletonPersistent<GameManager>
 
         Player = new Player();
         CurrentPartner = null;
-        UpdateGameModeFrom(GameState.ChoosingPartner);
+        UpdateGameModeFrom(GameState.MainMenu);
 
         Card.OnPartnerChoosen += Card_OnPartnerChoosen;
         Messanger.OnButtonBackPressed += Messanger_OnButtonBackPressed;
@@ -43,6 +44,7 @@ public class GameManager : SingletonPersistent<GameManager>
 
         _partnerSelectionMenu.gameObject.SetActive(false);
         _messengerMenu.gameObject.SetActive(false);
+        _mainMenu.gameObject.SetActive(false);
 
         switch (state)
         {
@@ -52,6 +54,10 @@ public class GameManager : SingletonPersistent<GameManager>
 
             case GameState.ChoosingPartner:
                 _partnerSelectionMenu.gameObject.SetActive(true);
+                break;
+            
+            case GameState.MainMenu:
+                _mainMenu.gameObject.SetActive(true);
                 break;
         }
     }

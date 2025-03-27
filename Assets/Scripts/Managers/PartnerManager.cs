@@ -27,7 +27,8 @@ public class PartnerManager : SingletonPersistent<PartnerManager>
 
             Partners.Add(new Partner(characterOriginName, partnerData));
 
-            DebugInformer.ShowStringFrom<Partner>(Partners);
         }
+
+        DebugInformer.ShowStringFrom<Partner>(Partners);
     }
 }

@@ -11,7 +11,7 @@ public class ButtonAnimator : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
     [SerializeField] private Color _normalColor;
     [SerializeField] private Color _enterColor;
-    [SerializeField] private float _enterScale;
+    [SerializeField] private float _enterScale = 1.1f;
     [SerializeField] private float _duration = 0.2f;
 
     private float _initialScale;
