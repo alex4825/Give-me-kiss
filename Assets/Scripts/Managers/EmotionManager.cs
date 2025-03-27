@@ -3,6 +3,7 @@ using UnityEngine;
 using Newtonsoft.Json;
 using UnityEngine.UI;
 using UnityEngine.TextCore.Text;
+using System.Linq;
 
 public class EmotionManager : SingletonPersistent<EmotionManager>
 {
@@ -27,6 +28,11 @@ public class EmotionManager : SingletonPersistent<EmotionManager>
         {
             Emotions.Add(new Emotion(emotionData));
         }
+    }
+
+    public Emotion GetEmotionBy(string originName)
+    {
+        return Emotions.First(emotion =>  emotion.OriginName == originName);
     }
 
     public string GetEmotionsInString()

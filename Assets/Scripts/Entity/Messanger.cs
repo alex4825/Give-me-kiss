@@ -113,15 +113,8 @@ public class Messanger : MonoBehaviour
 
         if (person is Partner)
         {
-            if (message.text.StartsWith("{") && message.text.EndsWith("}"))
-            {
-                AiMessageData messageData = JsonConvert.DeserializeObject<AiMessageData>(message.text);
-                message.text = messageData.Message;
-            }
-            else
-            {
-                Debug.LogWarning("Получено не JSON-сообщение: " + message);
-            }
+            AiMessageData messageData = JsonConvert.DeserializeObject<AiMessageData>(message.text);
+            message.text = messageData.Message;
         }
 
         messageObject.InitiateMessageFor(person, message);
@@ -138,7 +131,11 @@ public class Messanger : MonoBehaviour
             response =>
             {
                 WriteMessageToContainerFrom(currentPartner, new AiToolbox.Message(response, Role.AI));
-                GameManager.Instance.CurrentPartner.Chat.Add(new AiToolbox.Message(response, Role.AI));
+
+                AiMessageData messageData = JsonConvert.DeserializeObject<AiMessageData>(response);
+                currentPartner.AddSympathyFrom(EmotionManager.Instance.GetEmotionBy(messageData.Emotion));
+
+                currentPartner.Chat.Add(new AiToolbox.Message(response, Role.AI));
             },
             (errorCode, errorMessage) =>
             {
@@ -157,6 +154,7 @@ public class Messanger : MonoBehaviour
             GameManager.Instance.CurrentPartner.Chat.Clear();
 
             ClearChat();
+            GameManager.Instance.CurrentPartner.ResetSimpathy();
 
             _isInitiated = false;
         }

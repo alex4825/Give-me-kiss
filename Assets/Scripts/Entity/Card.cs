@@ -22,7 +22,11 @@ public class Card : MonoBehaviour
     private void Awake()
     {
         _thisButtonHandler.OnClick += Card_OnCardClicked;
-        _partner.OnSympathyChanged += UpdateSympathyBar;
+    }
+
+    private void OnEnable()
+    {
+        _sympathyBar.SetFillAmount(_partner.Sympathy);
     }
 
     private void Card_OnCardClicked()
@@ -39,8 +43,4 @@ public class Card : MonoBehaviour
         _sympathyBar.SetFillAmount(partner.Sympathy);
     }
 
-    public void UpdateSympathyBar(float value)
-    {
-        _sympathyBar.SetFillAmount(value);
-    }
 }

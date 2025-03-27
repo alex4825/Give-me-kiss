@@ -10,6 +10,8 @@ public class Partner : Person
 {
     private string _filePath;
     private string SympathyFilePostfix = "_sympathy.json";
+    private float _maxSimpathyValue = 100;
+    private float _minSimpathyValue;
 
     public Partner(PartnerData partnerData)
     {
@@ -27,9 +29,9 @@ public class Partner : Person
         _filePath = Path.Combine(Application.persistentDataPath, OriginName + SympathyFilePostfix);
 
         Sympathy = LoadSympathyFromFile();
-    }
 
-    public event Action<float> OnSympathyChanged;
+        _minSimpathyValue = -_maxSimpathyValue / 2;
+    }
 
     public int Age { get; private set; }
     public int Height { get; private set; }
@@ -43,17 +45,20 @@ public class Partner : Person
     {
         Sympathy += emotion.Strength;
         SaveSympathyToFile();
+        Debug.Log($"Added {emotion.OriginName} with strangth {emotion.Strength} for {OriginName}");
 
-        if (Sympathy > 100)
+        if (Sympathy > _maxSimpathyValue)
         {
-            Sympathy = 100;
+            Sympathy = _maxSimpathyValue;
         }
-        else if (Sympathy < 100)
+        else if (Sympathy < _minSimpathyValue)
         {
-            Sympathy = -100;
+            Sympathy = _minSimpathyValue;
         }
-
-        OnSympathyChanged?.Invoke(Sympathy);
+        else if (Sympathy < 0)
+        {
+            
+        }
     }
 
     private float LoadSympathyFromFile()
@@ -61,7 +66,7 @@ public class Partner : Person
         if (File.Exists(_filePath))
         {
             string json = File.ReadAllText(_filePath);
-            float sympathyValue = JsonConvert.DeserializeObject<float>(json);
+            float sympathyValue = float.Parse(json);
             return sympathyValue;
         }
 
@@ -77,4 +82,15 @@ public class Partner : Person
     {
         return $"Имя: {Name}, Возраст: {Age}, Рост: {Height}, Кратко о себе: {ShortAboutSelf}, Описание персонажа: {AboutSelf}";
     }
+
+    /// <summary>
+    /// /////////////////////////////////////////////////////
+    /// </summary>
+    public void ResetSimpathy()
+    {
+        Sympathy = 0;
+        File.WriteAllText(_filePath, (0).ToString());
+        string json = File.ReadAllText(_filePath);
+    }
+    ///////////////////////////////////////////////////////////
 }
