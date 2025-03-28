@@ -17,7 +17,6 @@ public class GameManager : SingletonPersistent<GameManager>
     {
         base.Awake();
 
-        //PersonManager.Instance.CurrentPartner = null;
         UpdateGameModeTo(GameState.MainMenu);
 
         PartnerCard.OnCardClicked += OpenMessenger;
@@ -33,13 +32,11 @@ public class GameManager : SingletonPersistent<GameManager>
 
     private void OpenChoosingPartnerMenu()
     {
-        //CurrentPartner = null;
         UpdateGameModeTo(GameState.ChoosingPartner);
     }
 
     private void OpenMessenger(Partner partner)
     {
-        //CurrentPartner = partner;
         UpdateGameModeTo(GameState.Messenger);
     }
 
