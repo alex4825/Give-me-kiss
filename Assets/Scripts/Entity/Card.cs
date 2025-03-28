@@ -26,7 +26,7 @@ public class Card : MonoBehaviour
 
     private void OnEnable()
     {
-        _sympathyBar.SetFillAmount(_partner.Sympathy);
+        _sympathyBar.SetFillAmount(_partner.SympathyNormalized);
     }
 
     private void Card_OnCardClicked()
@@ -40,7 +40,7 @@ public class Card : MonoBehaviour
         _characterImage.sprite = _partner.FaceSprite;
         _backgroundImage.color = partner.BasicColor;
         _characterDescription.text = $"{_partner.Name}, {_partner.Age} {StringResolver.GetYearSuffix(_partner.Age)}. {_partner.ShortAboutSelf}";
-        _sympathyBar.SetFillAmount(partner.Sympathy);
+        _sympathyBar.SetFillAmount(partner.SympathyNormalized);
     }
 
 }

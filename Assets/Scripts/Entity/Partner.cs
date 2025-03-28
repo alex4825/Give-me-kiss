@@ -40,12 +40,20 @@ public class Partner : Person
     public Chat Chat { get; private set; }
     public Color BasicColor { get; private set; }
     public float Sympathy { get; private set; }
+    public float SympathyNormalized
+    {
+        get
+        {
+            if (Sympathy >= 0)
+                return Sympathy / _maxSimpathyValue;
+            else
+                return Sympathy / -_minSimpathyValue;
+        }
+    }
 
     public void AddSympathyFrom(Emotion emotion)
     {
         Sympathy += emotion.Strength;
-        SaveSympathyToFile();
-        Debug.Log($"Added {emotion.OriginName} with strangth {emotion.Strength} for {OriginName}");
 
         if (Sympathy > _maxSimpathyValue)
         {
@@ -55,10 +63,9 @@ public class Partner : Person
         {
             Sympathy = _minSimpathyValue;
         }
-        else if (Sympathy < 0)
-        {
-            
-        }
+
+        SaveSympathyToFile();
+        Debug.Log($"Added {emotion.OriginName} with strangth {emotion.Strength} for {OriginName}");
     }
 
     private float LoadSympathyFromFile()

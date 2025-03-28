@@ -9,16 +9,16 @@ public class SympathyBar : MonoBehaviour
     [SerializeField] private Color _positiveColor;
     [SerializeField] private Color _negativeColor;
 
-    public void SetFillAmount(float sympathyValue)
+    public void SetFillAmount(float sympathyValueNormalized)
     {
-        if (sympathyValue >= 0)
+        if (sympathyValueNormalized >= 0)
         {
-            _barImage.fillAmount = sympathyValue / 100;
+            _barImage.fillAmount = sympathyValueNormalized;
             _barImage.color = _positiveColor;
         }
         else
         {
-            _barImage.fillAmount = -sympathyValue / 50;
+            _barImage.fillAmount = -sympathyValueNormalized;
             _barImage.color = _negativeColor;
         }
     }
