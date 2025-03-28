@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -26,6 +27,8 @@ public abstract class Person
                 return Progress / -_minProgressValue;
         }
     }
+
+    public event Action<float> OnProgressNormalizedChanged;
 
     public Person(PersonData personData)
     {
@@ -57,6 +60,8 @@ public abstract class Person
 
         SaveProgressToFile();
         Debug.Log($"Added {emotion.OriginName} with strangth {emotion.Strength} for {OriginName}");
+
+        OnProgressNormalizedChanged?.Invoke(ProgressNormalized);
     }
 
     private float LoadProgressFromFile()
@@ -79,11 +84,11 @@ public abstract class Person
     /// <summary>
     /// /////////////////////////////////////////////////////
     /// </summary>
-    public void ResetSimpathy()
+    public void ResetProgress()
     {
         Progress = 0;
-        File.WriteAllText(_filePath, (0).ToString());
-        string json = File.ReadAllText(_filePath);
+        File.Delete(_filePath);
+        //string json = File.ReadAllText(_filePath);
     }
 
 }

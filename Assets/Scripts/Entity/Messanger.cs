@@ -23,6 +23,7 @@ public class Messanger : MonoBehaviour
     private bool _isInitiated;
 
     public static event Action OnBackButtonClicked;
+    public event Action<Emotion> OnEmotionShown;
 
     private void Awake()
     {
@@ -77,8 +78,11 @@ public class Messanger : MonoBehaviour
 
         foreach (AiToolbox.Message message in messages)
         {
-            if (message.text.Contains("_INSTRUCT"))
+            if (string.IsNullOrEmpty(message.text) || message.text.Contains("_INSTRUCT"))
+            {
+                Debug.Log("Ошибочное сообщение");
                 continue;
+            }
 
             if (message.role == Role.User)
                 WriteMessageToContainerFrom(PersonManager.Instance.Player, message);
@@ -128,7 +132,10 @@ public class Messanger : MonoBehaviour
                 WriteMessageToContainerFrom(currentPartner, new AiToolbox.Message(response, Role.AI));
 
                 AiMessageData messageData = JsonConvert.DeserializeObject<AiMessageData>(response);
-                currentPartner.AddProgressFrom(EmotionManager.Instance.GetEmotionBy(messageData.Emotion));
+
+                Emotion messageEmotion = EmotionManager.Instance.GetEmotionBy(messageData.Emotion);
+                currentPartner.AddProgressFrom(messageEmotion);
+                OnEmotionShown?.Invoke(messageEmotion);
 
                 currentPartner.Chat.Add(new AiToolbox.Message(response, Role.AI));
             },
@@ -149,7 +156,7 @@ public class Messanger : MonoBehaviour
             PersonManager.Instance.CurrentPartner.Chat.Clear();
 
             ClearChat();
-            PersonManager.Instance.CurrentPartner.ResetSimpathy();
+            PersonManager.Instance.CurrentPartner.ResetProgress();
 
             _isInitiated = false;
         }

@@ -15,7 +15,10 @@ public class Card : MonoBehaviour
 
     private void OnEnable()
     {
-        ProgressBar.SetFillAmount(Person.ProgressNormalized);
+        if (Person != null)
+        {
+            ProgressBar.SetFillAmount(Person.ProgressNormalized);
+        }
     }
 
     public virtual void Initiate(Person person)
@@ -24,5 +27,12 @@ public class Card : MonoBehaviour
         PersonImage.sprite = Person.FaceSprite;
         BackgroundImage.color = person.BasicColor;
         ProgressBar.SetFillAmount(person.ProgressNormalized);
+
+        Person.OnProgressNormalizedChanged += Person_OnProgressChanged;
+    }
+
+    protected void Person_OnProgressChanged(float progressNotmalized)
+    {
+        ProgressBar.SetFillAmount(progressNotmalized);
     }
 }
