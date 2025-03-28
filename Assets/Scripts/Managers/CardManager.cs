@@ -21,6 +21,13 @@ public class CardManager : SingletonPersistent<CardManager>
         CreateCards();
 
         PersonManager.Instance.OnCurrentPartnerBlocked += BlockCardWithCurrentPartner;
+        Partner.OnPresentKiss += ChangeCardToKissFrom;
+    }
+
+    private void ChangeCardToKissFrom(Partner partner)
+    {
+        PartnerCard partnerCard = Cards.First(card => card.Partner.OriginName == partner.OriginName);
+        partnerCard.UpdateToKiss();
     }
 
     private void BlockCardWithCurrentPartner()

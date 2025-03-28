@@ -147,7 +147,7 @@ public class Messanger : MonoBehaviour
     /// <summary>
     /// /////////////////////////////////////////////////////
     /// </summary>
-    private void Update()
+    /*private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
@@ -159,7 +159,7 @@ public class Messanger : MonoBehaviour
 
             _isInitiated = false;
         }
-    }
+    }*/
     /////////////////////////////////////////////////////////
 
     private void OnDisable()

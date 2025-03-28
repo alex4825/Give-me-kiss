@@ -8,8 +8,11 @@ using UnityEngine;
 [Serializable]
 public class Partner : Person
 {
-    private string _fileIsOpenedPath;
+    private string _fileIsAvailablePath;
     private string IsAvailableFilePostfix = "_isAvailable.json";
+
+    private string _fileIsConqueredPath;
+    private string IsConqueredFilePostfix = "_isConquered.json";
 
     public Partner(PartnerData partnerData) : base(partnerData as PersonData)
     {
@@ -17,11 +20,17 @@ public class Partner : Person
         Height = partnerData.Height;
         AboutSelf = partnerData.AboutSelf;
         ShortAboutSelf = partnerData.ShortAboutSelf;
-        
+
         Chat = new Chat(this);
 
-        _fileIsOpenedPath = Path.Combine(Application.persistentDataPath, OriginName + IsAvailableFilePostfix);
+        _fileIsAvailablePath = Path.Combine(Application.persistentDataPath, OriginName + IsAvailableFilePostfix);
+        _fileIsConqueredPath = Path.Combine(Application.persistentDataPath, OriginName + IsConqueredFilePostfix);
+
         IsAvailable = LoadIsAvailableFromFile();
+        IsConquered = LoadIsConqueredFromFile();
+
+        if (IsConquered)
+            OnPresentKiss?.Invoke(this);
     }
 
     public int Age { get; private set; }
@@ -30,8 +39,10 @@ public class Partner : Person
     public string AboutSelf { get; private set; }
     public Chat Chat { get; private set; }
     public bool IsAvailable { get; private set; }
+    public bool IsConquered { get; private set; }
 
     public event Action OnNoAvailable;
+    public static event Action<Partner> OnPresentKiss;
 
     public override void AddProgressFrom(Emotion emotion)
     {
@@ -43,17 +54,24 @@ public class Partner : Person
             OnNoAvailable?.Invoke();
             Debug.Log($"Девушка {OriginName} более недоступна");
         }
+        else if (Progress >= MaxProgressValue)
+        {
+            IsConquered = true;
+            OnPresentKiss?.Invoke(this);
+            Debug.Log($"Девушка {OriginName} подарила поцелуй!");
+        }
 
         SaveIsAvailableToFile();
+        SaveIsConquredToFile();
     }
 
     private bool LoadIsAvailableFromFile()
     {
-        if (File.Exists(_fileIsOpenedPath))
+        if (File.Exists(_fileIsAvailablePath))
         {
-            string json = File.ReadAllText(_fileIsOpenedPath);
-            bool charismaLevelValue = bool.Parse(json);
-            return charismaLevelValue;
+            string json = File.ReadAllText(_fileIsAvailablePath);
+            bool isAvailableLevelValue = bool.Parse(json);
+            return isAvailableLevelValue;
         }
         else
         {
@@ -64,9 +82,31 @@ public class Partner : Person
         return true;
     }
 
+    private bool LoadIsConqueredFromFile()
+    {
+        if (File.Exists(_fileIsConqueredPath))
+        {
+            string json = File.ReadAllText(_fileIsConqueredPath);
+            bool isConquredLevelValue = bool.Parse(json);
+            return isConquredLevelValue;
+        }
+        else
+        {
+            IsConquered = false;
+            SaveIsConquredToFile();
+        }
+
+        return true;
+    }
+
     private void SaveIsAvailableToFile()
     {
-        File.WriteAllText(_fileIsOpenedPath, IsAvailable.ToString());
+        File.WriteAllText(_fileIsAvailablePath, IsAvailable.ToString());
+    }
+
+    private void SaveIsConquredToFile()
+    {
+        File.WriteAllText(_fileIsConqueredPath, IsConquered.ToString());
     }
 
     public override string ToString()
@@ -82,6 +122,6 @@ public class Partner : Person
         base.ResetFiles();
 
         IsAvailable = true;
-        File.Delete(_fileIsOpenedPath);
+        File.Delete(_fileIsAvailablePath);
     }
 }

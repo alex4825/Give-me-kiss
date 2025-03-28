@@ -40,8 +40,14 @@ public class PersonManager : SingletonPersistent<PersonManager>
     {
         CurrentPartner = partner;
         CurrentPartner.OnNoAvailable += BlockCurrentPartner;
+        //Partner.OnPresentKiss += KissBy;
     }
-    
+
+    /*private void KissBy(Partner partner)
+    {
+        OnCurrentPartnerKissed?.Invoke();
+    }*/
+
     private void ResetCurrentPartner()
     {
         CurrentPartner = null;
@@ -59,7 +65,7 @@ public class PersonManager : SingletonPersistent<PersonManager>
     private void InitiatePartnersFromDataFile()
     {
         Partners = new List<Partner>();
-        List<PartnerData>  partnersData = FileManager.Instance.JsonToPartnerDataList();
+        List<PartnerData> partnersData = FileManager.Instance.JsonToPartnerDataList();
 
         foreach (var partnerData in partnersData)
         {

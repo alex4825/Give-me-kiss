@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 public class Card : MonoBehaviour
 {
-    [SerializeField] protected Image PersonImage;
+    [SerializeField] public Image PersonImage;
     [SerializeField] protected Image BackgroundImage;
     [SerializeField] protected ProgressBar ProgressBar;
     [SerializeField] private Transform _emotionLocation;

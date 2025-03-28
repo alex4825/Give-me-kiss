@@ -37,10 +37,14 @@ public class PartnerCard : Card
 
         _characterDescription.text = $"{partner.Name}, {partner.Age} {StringResolver.GetYearSuffix(partner.Age)}. {partner.ShortAboutSelf}";
 
-
         if (Partner.IsAvailable == false)
         {
             Block();
+        }
+
+        if(Partner.IsConquered == true)
+        {
+            UpdateToKiss();
         }
     }
 
@@ -50,5 +54,10 @@ public class PartnerCard : Card
         CanvasGroup canvasGroup = GetComponent<CanvasGroup>();
         canvasGroup.interactable = false;
         canvasGroup.blocksRaycasts = false;
+    }
+
+    public void UpdateToKiss()
+    {
+        PersonImage.sprite = Partner.KissSprite;
     }
 }

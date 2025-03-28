@@ -8,13 +8,13 @@ public abstract class Person
 {
     private string _fileProgressPath;
     private string ProgressFilePostfix = "_progress.json";
-    protected float MaxProgressValue = 20;
+    protected float MaxProgressValue = 100;
     protected float MinProgressValue;
 
     public string OriginName { get; protected set; }
     public string Name { get; protected set; }
     public Sprite FaceSprite { get; protected set; }
-    public Sprite AppearanceSprite { get; protected set; }
+    public Sprite KissSprite { get; protected set; }
     public float Progress { get; protected set; }
     public Color BasicColor { get; protected set; }
     public float ProgressNormalized
@@ -35,7 +35,7 @@ public abstract class Person
         OriginName = personData.OriginName;
         Name = personData.Name;
         FaceSprite = FileManager.Instance.LoadCharacterSpriteBy($"{OriginName}_face");
-        AppearanceSprite = FileManager.Instance.LoadCharacterSpriteBy($"{OriginName}_full");
+        KissSprite = FileManager.Instance.LoadCharacterSpriteBy($"{OriginName}_kiss");
         BasicColor = personData.BasicColor;
 
         _fileProgressPath = Path.Combine(Application.persistentDataPath, OriginName + ProgressFilePostfix);

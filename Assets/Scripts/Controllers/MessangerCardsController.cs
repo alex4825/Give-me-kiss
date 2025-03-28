@@ -15,7 +15,13 @@ public class MessangerCardsController : MonoBehaviour
     {
         Messanger.OnEmotionShown += ShowCurrentPartnerAmotion;
         PersonManager.Instance.Player.OnCharismaLevelUp += ShowPlayerCharizmaLevelUp; 
-        PersonManager.Instance.Player.OnCharismaLevelDown += ShowPlayerCharizmaLevelDown; 
+        PersonManager.Instance.Player.OnCharismaLevelDown += ShowPlayerCharizmaLevelDown;
+        Partner.OnPresentKiss += UpdateMessangerPartnerCard;
+    }
+
+    private void UpdateMessangerPartnerCard(Partner partner)
+    {
+        _partnerCard.PersonImage.sprite = partner.KissSprite;
     }
 
     private void ShowPlayerCharizmaLevelDown(int level)
