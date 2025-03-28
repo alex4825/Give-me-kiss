@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using TreeEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,8 +11,11 @@ public class Card : MonoBehaviour
     [SerializeField] protected Image PersonImage;
     [SerializeField] protected Image BackgroundImage;
     [SerializeField] protected ProgressBar ProgressBar;
+    [SerializeField] private Transform _emotionLocation;
 
     protected Person Person;
+
+    public Transform PopupLocation => _emotionLocation;
 
     private void OnEnable()
     {
@@ -31,8 +35,18 @@ public class Card : MonoBehaviour
         Person.OnProgressNormalizedChanged += Person_OnProgressChanged;
     }
 
+    public void UpdateProgress(int value)
+    {
+        ProgressBar.SetFillAmount(value);
+    }
+
     protected void Person_OnProgressChanged(float progressNotmalized)
     {
         ProgressBar.SetFillAmount(progressNotmalized);
+    }
+
+    private void OnDisable()
+    {
+        Person.OnProgressNormalizedChanged -= Person_OnProgressChanged;
     }
 }

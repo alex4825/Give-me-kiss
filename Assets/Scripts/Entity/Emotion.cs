@@ -6,24 +6,19 @@ using UnityEngine;
 [Serializable]
 public class Emotion
 {
-    private string _originName;
-    private string _name;
-    private float _strength;
-    private bool _isPositive;
-    private Sprite _emojiSprite;
-
     public Emotion(EmotionData emotionData)
     {
-        _originName = emotionData.OriginName;
-        _name = emotionData.Name;
-        _strength = emotionData.Strength;
-        _isPositive = emotionData.IsPositive;
+        OriginName = emotionData.OriginName;
+        Name = emotionData.Name;
+        Strength = emotionData.Strength;
+        IsPositive = emotionData.IsPositive;
 
-        _emojiSprite = FileManager.Instance.LoadEmojiSpriteBy(_originName);
+        EmojiSprite = FileManager.Instance.LoadEmojiSpriteBy(OriginName);
     }
 
-    public string OriginName => _originName;
-    public string Name => _name;
-    public float Strength => _strength;
-    public bool IsPositive => _isPositive;
+    public string OriginName { get; private set; }
+    public string Name { get; private set; }
+    public float Strength { get; set; }
+    public bool IsPositive { get; private set; }
+    public Sprite EmojiSprite { get; private set; }
 }

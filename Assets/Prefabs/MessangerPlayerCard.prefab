@@ -143,6 +143,18 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 774260106612392295, guid: 9aeffe446fb7109438c28df42ecac8a4, type: 3}
+      propertyPath: m_Color.b
+      value: 0.7568628
+      objectReference: {fileID: 0}
+    - target: {fileID: 774260106612392295, guid: 9aeffe446fb7109438c28df42ecac8a4, type: 3}
+      propertyPath: m_Color.g
+      value: 0.73333335
+      objectReference: {fileID: 0}
+    - target: {fileID: 774260106612392295, guid: 9aeffe446fb7109438c28df42ecac8a4, type: 3}
+      propertyPath: m_Color.r
+      value: 0.5921569
+      objectReference: {fileID: 0}
+    - target: {fileID: 774260106612392295, guid: 9aeffe446fb7109438c28df42ecac8a4, type: 3}
       propertyPath: m_Material
       value: 
       objectReference: {fileID: 0}
@@ -241,6 +253,22 @@ PrefabInstance:
     - target: {fileID: 5947001040333063148, guid: 9aeffe446fb7109438c28df42ecac8a4, type: 3}
       propertyPath: m_Name
       value: MessangerPlayerCard
+      objectReference: {fileID: 0}
+    - target: {fileID: 5985619500828353995, guid: 9aeffe446fb7109438c28df42ecac8a4, type: 3}
+      propertyPath: m_Pivot.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5985619500828353995, guid: 9aeffe446fb7109438c28df42ecac8a4, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5985619500828353995, guid: 9aeffe446fb7109438c28df42ecac8a4, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5985619500828353995, guid: 9aeffe446fb7109438c28df42ecac8a4, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 19.81
       objectReference: {fileID: 0}
     - target: {fileID: 7717091935836242684, guid: 9aeffe446fb7109438c28df42ecac8a4, type: 3}
       propertyPath: m_Sprite

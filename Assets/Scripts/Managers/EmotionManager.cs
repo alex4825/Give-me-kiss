@@ -16,17 +16,39 @@ public class EmotionManager : SingletonPersistent<EmotionManager>
         InitiateAmotions();
 
         Debug.Log("Эмоции:" + GetEmotionsInString());
+
+        PersonManager.Instance.Player.OnCharismaLevelUp += Player_OnCharismaLevelChanged;
     }
 
+    private void Player_OnCharismaLevelChanged(int newLevel)
+    {
+        UpdateEmotionsStrangthFrom(newLevel);
+    }
 
     private void InitiateAmotions()
     {
-        Emotions = new List<Emotion>();
+        int currentPlayerCharismaLevel = PersonManager.Instance.Player.CharismaLevel;
+
         List<EmotionData> emotionsData = FileManager.Instance.JsonToEmotionDataList();
 
-        foreach (var emotionData in emotionsData)
+        Emotions = new List<Emotion>();
+
+        for (int i = 0; i < emotionsData.Count; i++)
         {
-            Emotions.Add(new Emotion(emotionData));
+            Emotions.Add(new Emotion(emotionsData[i]));
+        }
+
+        UpdateEmotionsStrangthFrom(currentPlayerCharismaLevel);
+    }
+
+    private void UpdateEmotionsStrangthFrom(int currentPlayerCharismaLevel)
+    {
+        for (int i = 0; i < Emotions.Count; i++)
+        {
+            if (currentPlayerCharismaLevel > 0 && Emotions[i].IsPositive)
+                Emotions[i].Strength += currentPlayerCharismaLevel;
+            else if (currentPlayerCharismaLevel < 0 && Emotions[i].IsPositive == false)
+                Emotions[i].Strength += currentPlayerCharismaLevel;
         }
     }
 

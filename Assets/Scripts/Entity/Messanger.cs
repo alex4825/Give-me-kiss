@@ -154,8 +154,8 @@ public class Messanger : MonoBehaviour
             PersonManager.Instance.CurrentPartner.Chat.Clear();
 
             ClearChat();
-            PersonManager.Instance.CurrentPartner.ResetProgress();
-            PersonManager.Instance.Player.ResetProgress();
+            PersonManager.Instance.CurrentPartner.ResetFiles();
+            PersonManager.Instance.Player.ResetFiles();
 
             _isInitiated = false;
         }

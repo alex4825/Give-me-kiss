@@ -6,25 +6,25 @@ using UnityEngine;
 
 public abstract class Person
 {
-    private string _filePath;
+    private string _fileProgressPath;
     private string ProgressFilePostfix = "_progress.json";
-    private float _maxProgressValue = 100;
-    private float _minProgressValue;
+    protected float MaxProgressValue = 20;
+    protected float MinProgressValue;
 
     public string OriginName { get; protected set; }
     public string Name { get; protected set; }
     public Sprite FaceSprite { get; protected set; }
     public Sprite AppearanceSprite { get; protected set; }
-    public float Progress { get; private set; }
-    public Color BasicColor { get; private set; }
+    public float Progress { get; protected set; }
+    public Color BasicColor { get; protected set; }
     public float ProgressNormalized
     {
         get
         {
             if (Progress >= 0)
-                return Progress / _maxProgressValue;
+                return Progress / MaxProgressValue;
             else
-                return Progress / -_minProgressValue;
+                return Progress / -MinProgressValue;
         }
     }
 
@@ -38,24 +38,24 @@ public abstract class Person
         AppearanceSprite = FileManager.Instance.LoadCharacterSpriteBy($"{OriginName}_full");
         BasicColor = personData.BasicColor;
 
-        _filePath = Path.Combine(Application.persistentDataPath, OriginName + ProgressFilePostfix);
+        _fileProgressPath = Path.Combine(Application.persistentDataPath, OriginName + ProgressFilePostfix);
 
         Progress = LoadProgressFromFile();
 
-        _minProgressValue = -_maxProgressValue;
+        MinProgressValue = -MaxProgressValue * 0.8f;
     }
 
-    public void AddProgressFrom(Emotion emotion)
+    public virtual void AddProgressFrom(Emotion emotion)
     {
         Progress += emotion.Strength;
 
-        if (Progress > _maxProgressValue)
+        if (Progress > MaxProgressValue)
         {
-            Progress = _maxProgressValue;
+            Progress = MaxProgressValue;
         }
-        else if (Progress < _minProgressValue)
+        else if (Progress < MinProgressValue)
         {
-            Progress = _minProgressValue;
+            Progress = MinProgressValue;
         }
 
         SaveProgressToFile();
@@ -66,9 +66,9 @@ public abstract class Person
 
     private float LoadProgressFromFile()
     {
-        if (File.Exists(_filePath))
+        if (File.Exists(_fileProgressPath))
         {
-            string json = File.ReadAllText(_filePath);
+            string json = File.ReadAllText(_fileProgressPath);
             float progressValue = float.Parse(json);
             return progressValue;
         }
@@ -78,16 +78,16 @@ public abstract class Person
 
     private void SaveProgressToFile()
     {
-        File.WriteAllText(_filePath, Progress.ToString());
+        File.WriteAllText(_fileProgressPath, Progress.ToString());
     }
 
     /// <summary>
     /// /////////////////////////////////////////////////////
     /// </summary>
-    public void ResetProgress()
+    public virtual void ResetFiles()
     {
         Progress = 0;
-        File.Delete(_filePath);
+        File.Delete(_fileProgressPath);
         //string json = File.ReadAllText(_filePath);
     }
 
