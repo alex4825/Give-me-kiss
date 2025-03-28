@@ -17,7 +17,7 @@ public class Chat
     }
 
     public List<AiToolbox.Message> History { get; private set; }
-    public bool IsInitialized => History.Count > 0;
+    public bool IsInitialized => History == null ? false : History.Count > 0;
 
     private void InitiateHistory()
     {

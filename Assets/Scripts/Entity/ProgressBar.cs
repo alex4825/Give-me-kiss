@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SympathyBar : MonoBehaviour
+public class ProgressBar : MonoBehaviour
 {
     [SerializeField] private Image _barImage;
     [SerializeField] private Color _positiveColor;

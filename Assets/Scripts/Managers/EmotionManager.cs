@@ -32,7 +32,12 @@ public class EmotionManager : SingletonPersistent<EmotionManager>
 
     public Emotion GetEmotionBy(string originName)
     {
-        return Emotions.First(emotion =>  emotion.OriginName == originName);
+        Emotion emotion = Emotions.FirstOrDefault(emotion => emotion.OriginName == originName);
+
+        if (emotion == null)
+            return Emotions.First(emotion => emotion.OriginName == "Calm");
+        else
+            return emotion;
     }
 
     public string GetEmotionsInString()

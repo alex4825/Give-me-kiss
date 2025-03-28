@@ -41,7 +41,7 @@ public class Messanger : MonoBehaviour
 
     private void OnEnable()
     {
-        _isInitiated = GameManager.Instance.CurrentPartner.Chat.IsInitialized;
+        _isInitiated = PersonManager.Instance.CurrentPartner.Chat.IsInitialized;
 
         if (_isInitiated)
         {
@@ -62,18 +62,18 @@ public class Messanger : MonoBehaviour
         string initiateMessage = FileManager.Instance.LoadInitialInstructionsToAI();
 
         string aboutAmotions = $"emotion может принимать такие значения: {EmotionManager.Instance.GetEmotionsInString()}.";
-        string aboutCurrentPartner = $"Твой персонаж: {GameManager.Instance.CurrentPartner.ToString()}.";
+        string aboutCurrentPartner = $"Твой персонаж: {PersonManager.Instance.CurrentPartner.ToString()}.";
         string closingMessage = $"Теперь начинается твоя переписка с игроком. _INSTRUCT_END.";
 
         initiateMessage += aboutAmotions + aboutCurrentPartner + closingMessage;
-        Debug.Log($"Initial message for {GameManager.Instance.CurrentPartner.OriginName} is:\n {initiateMessage}");
+        Debug.Log($"Initial message for {PersonManager.Instance.CurrentPartner.OriginName} is:\n {initiateMessage}");
 
         return initiateMessage;
     }
 
     private void FillContainerFromChatHistory()
     {
-        List<AiToolbox.Message> messages = GameManager.Instance.CurrentPartner.Chat.History;
+        List<AiToolbox.Message> messages = PersonManager.Instance.CurrentPartner.Chat.History;
 
         foreach (AiToolbox.Message message in messages)
         {
@@ -81,23 +81,23 @@ public class Messanger : MonoBehaviour
                 continue;
 
             if (message.role == Role.User)
-                WriteMessageToContainerFrom(GameManager.Instance.Player, message);
+                WriteMessageToContainerFrom(PersonManager.Instance.Player, message);
             else if (message.role == Role.AI)
-                WriteMessageToContainerFrom(GameManager.Instance.CurrentPartner, message);
+                WriteMessageToContainerFrom(PersonManager.Instance.CurrentPartner, message);
         }
     }
 
     private void InputField_OnMessageSent(string messageText)
     {
-        WriteMessageToContainerFrom(GameManager.Instance.Player, new AiToolbox.Message(messageText, Role.User));
+        WriteMessageToContainerFrom(PersonManager.Instance.Player, new AiToolbox.Message(messageText, Role.User));
 
         if (_isInitiated == false)
         {
-            GameManager.Instance.CurrentPartner.Chat.Add(new AiToolbox.Message(_initialMessage, Role.User));
+            PersonManager.Instance.CurrentPartner.Chat.Add(new AiToolbox.Message(_initialMessage, Role.User));
             _isInitiated = true;
         }
 
-        GameManager.Instance.CurrentPartner.Chat.Add(new AiToolbox.Message(messageText, Role.User));
+        PersonManager.Instance.CurrentPartner.Chat.Add(new AiToolbox.Message(messageText, Role.User));
 
         SendMessageToPartner();
     }
@@ -118,7 +118,7 @@ public class Messanger : MonoBehaviour
 
     private void SendMessageToPartner()
     {
-        Partner currentPartner = GameManager.Instance.CurrentPartner;
+        Partner currentPartner = PersonManager.Instance.CurrentPartner;
 
         ChatGpt.Request(
             currentPartner.Chat.History,
@@ -128,7 +128,7 @@ public class Messanger : MonoBehaviour
                 WriteMessageToContainerFrom(currentPartner, new AiToolbox.Message(response, Role.AI));
 
                 AiMessageData messageData = JsonConvert.DeserializeObject<AiMessageData>(response);
-                currentPartner.AddSympathyFrom(EmotionManager.Instance.GetEmotionBy(messageData.Emotion));
+                currentPartner.AddProgressFrom(EmotionManager.Instance.GetEmotionBy(messageData.Emotion));
 
                 currentPartner.Chat.Add(new AiToolbox.Message(response, Role.AI));
             },
@@ -146,10 +146,10 @@ public class Messanger : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            GameManager.Instance.CurrentPartner.Chat.Clear();
+            PersonManager.Instance.CurrentPartner.Chat.Clear();
 
             ClearChat();
-            GameManager.Instance.CurrentPartner.ResetSimpathy();
+            PersonManager.Instance.CurrentPartner.ResetSimpathy();
 
             _isInitiated = false;
         }

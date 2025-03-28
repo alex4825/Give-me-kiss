@@ -4,11 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class PlayerData : MonoBehaviour
+public class PlayerData : PersonData
 {
-    [JsonProperty("originName")]
-    public string OriginName { get; private set; }
 
-    [JsonProperty("name")]
-    public string Name { get; private set; }
 }

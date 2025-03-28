@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,19 +11,16 @@ public class GameManager : SingletonPersistent<GameManager>
 
     public GameState CurrentGameState { get; private set; }
 
-    public Player Player { get; private set; }
-
-    public Partner CurrentPartner { get; private set; }
+    public static event Action<GameState> OnGameStateChanged;
 
     protected override void Awake()
     {
         base.Awake();
 
-        Player = new Player();
-        CurrentPartner = null;
-        UpdateGameModeFrom(GameState.MainMenu);
+        //PersonManager.Instance.CurrentPartner = null;
+        UpdateGameModeTo(GameState.MainMenu);
 
-        Card.OnCardClicked += OpenMessenger;
+        PartnerCard.OnCardClicked += OpenMessenger;
         Messanger.OnBackButtonClicked += OpenChoosingPartnerMenu;
         MainMenu.OnPlayButtonClicked += OpenChoosingPartnerMenu;
         PartnerSelectionMenu.OnBackButtonClicked += OpenMainMenu;
@@ -30,22 +28,22 @@ public class GameManager : SingletonPersistent<GameManager>
 
     private void OpenMainMenu()
     {
-        UpdateGameModeFrom(GameState.MainMenu);
+        UpdateGameModeTo(GameState.MainMenu);
     }
 
     private void OpenChoosingPartnerMenu()
     {
-        CurrentPartner = null;
-        UpdateGameModeFrom(GameState.ChoosingPartner);
+        //CurrentPartner = null;
+        UpdateGameModeTo(GameState.ChoosingPartner);
     }
 
     private void OpenMessenger(Partner partner)
     {
-        CurrentPartner = partner;
-        UpdateGameModeFrom(GameState.Messenger);
+        //CurrentPartner = partner;
+        UpdateGameModeTo(GameState.Messenger);
     }
 
-    private void UpdateGameModeFrom(GameState state)
+    private void UpdateGameModeTo(GameState state)
     {
         CurrentGameState = state;
 
@@ -67,6 +65,8 @@ public class GameManager : SingletonPersistent<GameManager>
                 _mainMenu.gameObject.SetActive(true);
                 break;
         }
+
+        OnGameStateChanged?.Invoke(state);
     }
 
 }
