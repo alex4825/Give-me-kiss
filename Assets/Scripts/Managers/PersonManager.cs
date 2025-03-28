@@ -19,7 +19,14 @@ public class PersonManager : SingletonPersistent<PersonManager>
 
         PartnerCard.OnCardClicked += SetCurrentPartner;
         Messanger.OnBackButtonClicked += ResetCurrentPartner;
+        Messanger.OnEmotionShown += ChangeCurrentPersonsProgress;
         MainMenu.OnPlayButtonClicked += ResetCurrentPartner;
+    }
+
+    private void ChangeCurrentPersonsProgress(Emotion emotion)
+    {
+        Player.AddProgressFrom(emotion);
+        CurrentPartner.AddProgressFrom(emotion);
     }
 
     private void SetCurrentPartner(Partner partner)

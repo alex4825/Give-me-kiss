@@ -42,7 +42,7 @@ public abstract class Person
 
         Progress = LoadProgressFromFile();
 
-        _minProgressValue = -_maxProgressValue / 2;
+        _minProgressValue = -_maxProgressValue;
     }
 
     public void AddProgressFrom(Emotion emotion)

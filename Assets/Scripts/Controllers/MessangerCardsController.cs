@@ -6,11 +6,10 @@ public class MessangerCardsController : MonoBehaviour
 {
     [SerializeField] private Card _playerCard;
     [SerializeField] private Card _partnerCard;
-    [SerializeField] private Messanger _messanger;
 
     private void Awake()
     {
-        _messanger.OnEmotionShown += Messanger_OnEmotionShown;
+        Messanger.OnEmotionShown += Messanger_OnEmotionShown;
     }
     
     private void OnEnable()

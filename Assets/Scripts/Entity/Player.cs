@@ -8,4 +8,6 @@ public class Player : Person
     {
         
     }    
+
+    public int CharismaLevel { get; private set; }
 }
