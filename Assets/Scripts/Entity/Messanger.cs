@@ -15,7 +15,7 @@ public class Messanger : MonoBehaviour
     [SerializeField] private Transform _messangesContainer;
     [SerializeField] private ButtonHandler _backButton;
     [SerializeField] private MessageObject _messagePrefab;
-    [SerializeField] private TMP_InputField _inputField;
+    [SerializeField] private InputField _inputField;
 
     private ChatGptParameters _gptParameters;
     private List<MessageObject> _visibleMessages;
@@ -35,6 +35,7 @@ public class Messanger : MonoBehaviour
         _visibleMessages = new List<MessageObject>();
 
         _backButton.OnClick += BackButton_OnClick;
+        _inputField.OnMessageSent += InputField_OnMessageSent;
     }
 
 
@@ -86,25 +87,19 @@ public class Messanger : MonoBehaviour
         }
     }
 
-    public void SendPlayerMessageFromInput()
+    private void InputField_OnMessageSent(string messageText)
     {
-        string messageText = _inputField.text;
+        WriteMessageToContainerFrom(GameManager.Instance.Player, new AiToolbox.Message(messageText, Role.User));
 
-        if (!string.IsNullOrWhiteSpace(messageText))
+        if (_isInitiated == false)
         {
-            WriteMessageToContainerFrom(GameManager.Instance.Player, new AiToolbox.Message(messageText, Role.User));
-            _inputField.text = string.Empty;
-
-            if (_isInitiated == false)
-            {
-                GameManager.Instance.CurrentPartner.Chat.Add(new AiToolbox.Message(_initialMessage, Role.User));
-                _isInitiated = true;
-            }
-
-            GameManager.Instance.CurrentPartner.Chat.Add(new AiToolbox.Message(messageText, Role.User));
-
-            SendMessageToPartner();
+            GameManager.Instance.CurrentPartner.Chat.Add(new AiToolbox.Message(_initialMessage, Role.User));
+            _isInitiated = true;
         }
+
+        GameManager.Instance.CurrentPartner.Chat.Add(new AiToolbox.Message(messageText, Role.User));
+
+        SendMessageToPartner();
     }
 
     private void WriteMessageToContainerFrom(Person person, AiToolbox.Message message)
