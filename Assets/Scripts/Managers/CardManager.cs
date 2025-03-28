@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.TextCore.Text;
 
@@ -18,6 +19,14 @@ public class CardManager : SingletonPersistent<CardManager>
 
         _partners = PersonManager.Instance.Partners;
         CreateCards();
+
+        PersonManager.Instance.OnCurrentPartnerBlocked += BlockCardWithCurrentPartner;
+    }
+
+    private void BlockCardWithCurrentPartner()
+    {
+        PartnerCard partnerCard = Cards.First(card => card.Partner.OriginName == PersonManager.Instance.CurrentPartner.OriginName);
+        partnerCard.Block();
     }
 
     private void CreateCards()

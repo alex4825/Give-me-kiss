@@ -9,6 +9,7 @@ public class PersonManager : SingletonPersistent<PersonManager>
     public Partner CurrentPartner { get; private set; }
     public List<Partner> Partners { get; private set; }
 
+    public event Action OnCurrentPartnerBlocked;
 
     protected override void Awake()
     {
@@ -23,6 +24,12 @@ public class PersonManager : SingletonPersistent<PersonManager>
         MainMenu.OnPlayButtonClicked += ResetCurrentPartner;
     }
 
+    private void BlockCurrentPartner()
+    {
+        OnCurrentPartnerBlocked?.Invoke();
+        CurrentPartner = null;
+    }
+
     private void ChangeCurrentPersonsProgress(Emotion emotion)
     {
         Player.AddProgressFrom(emotion);
@@ -32,6 +39,7 @@ public class PersonManager : SingletonPersistent<PersonManager>
     private void SetCurrentPartner(Partner partner)
     {
         CurrentPartner = partner;
+        CurrentPartner.OnNoAvailable += BlockCurrentPartner;
     }
     
     private void ResetCurrentPartner()

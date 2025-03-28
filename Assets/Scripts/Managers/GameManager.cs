@@ -23,6 +23,7 @@ public class GameManager : SingletonPersistent<GameManager>
         Messanger.OnBackButtonClicked += OpenChoosingPartnerMenu;
         MainMenu.OnPlayButtonClicked += OpenChoosingPartnerMenu;
         PartnerSelectionMenu.OnBackButtonClicked += OpenMainMenu;
+        PersonManager.Instance.OnCurrentPartnerBlocked += OpenChoosingPartnerMenu;
     }
 
     private void OpenMainMenu()

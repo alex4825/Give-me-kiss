@@ -12,10 +12,11 @@ public class PartnerCard : Card
 {
     [SerializeField] private TextMeshProUGUI _characterDescription;
     [SerializeField] private ButtonHandler _thisButtonHandler;
+    [SerializeField] private Image _grayLayer;
 
     public static event Action<Partner> OnCardClicked;
 
-    private Partner Partner => Person as Partner;
+    public Partner Partner => Person as Partner;
 
     private void Awake()
     {
@@ -35,6 +36,19 @@ public class PartnerCard : Card
         Person = initiatedPartners.First(partner => partner.OriginName == Partner.OriginName);
 
         _characterDescription.text = $"{partner.Name}, {partner.Age} {StringResolver.GetYearSuffix(partner.Age)}. {partner.ShortAboutSelf}";
+
+
+        if (Partner.IsAvailable == false)
+        {
+            Block();
+        }
     }
 
+    public void Block()
+    {
+        _grayLayer.gameObject.SetActive(true);
+        CanvasGroup canvasGroup = GetComponent<CanvasGroup>();
+        canvasGroup.interactable = false;
+        canvasGroup.blocksRaycasts = false;
+    }
 }
