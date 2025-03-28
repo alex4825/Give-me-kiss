@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
@@ -18,6 +16,8 @@ public class ButtonHandler : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     private float _initialScale;
 
     public event Action OnClick;
+
+    public static event Action OnSomeClick;
 
     private void Start()
     {
@@ -45,6 +45,7 @@ public class ButtonHandler : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 
     public void OnPointerClick(PointerEventData pointerEventData)
     {
+        OnSomeClick?.Invoke();
         OnClick?.Invoke();
         Debug.Log($"Button {gameObject.name} clicked.");
     }

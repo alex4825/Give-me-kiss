@@ -1,8 +1,6 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.TextCore.Text;
 
 public class CardManager : SingletonPersistent<CardManager>
 {
@@ -20,7 +18,7 @@ public class CardManager : SingletonPersistent<CardManager>
         _partners = PersonManager.Instance.Partners;
         CreateCards();
 
-        PersonManager.Instance.OnCurrentPartnerBlocked += BlockCardWithCurrentPartner;
+        Partner.OnNoAvailable += BlockCardWithPartner;
         Partner.OnPresentKiss += ChangeCardToKissFrom;
     }
 
@@ -30,9 +28,9 @@ public class CardManager : SingletonPersistent<CardManager>
         partnerCard.UpdateToKiss();
     }
 
-    private void BlockCardWithCurrentPartner()
+    private void BlockCardWithPartner(Partner partner)
     {
-        PartnerCard partnerCard = Cards.First(card => card.Partner.OriginName == PersonManager.Instance.CurrentPartner.OriginName);
+        PartnerCard partnerCard = Cards.First(card => card.Partner.OriginName == partner.OriginName);
         partnerCard.Block();
     }
 

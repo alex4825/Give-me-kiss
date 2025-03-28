@@ -1,8 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using TMPro;
-using TreeEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -33,6 +28,11 @@ public class Card : MonoBehaviour
         ProgressBar.SetFillAmount(person.ProgressNormalized);
 
         Person.OnProgressNormalizedChanged += Person_OnProgressChanged;
+
+        if (Person is Partner && (Person as Partner).IsConquered)
+        {
+            PersonImage.sprite = (Person as Partner).KissSprite;
+        }
     }
 
     public void UpdateProgress(int value)

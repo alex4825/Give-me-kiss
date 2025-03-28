@@ -1,7 +1,4 @@
-using Newtonsoft.Json;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
@@ -39,9 +36,9 @@ public class Partner : Person
     public string AboutSelf { get; private set; }
     public Chat Chat { get; private set; }
     public bool IsAvailable { get; private set; }
-    public bool IsConquered { get; private set; }
+    public bool IsConquered { get; private set; } = false;
 
-    public event Action OnNoAvailable;
+    public static event Action<Partner> OnNoAvailable;
     public static event Action<Partner> OnPresentKiss;
 
     public override void AddProgressFrom(Emotion emotion)
@@ -51,7 +48,7 @@ public class Partner : Person
         if (Progress <= MinProgressValue)
         {
             IsAvailable = false;
-            OnNoAvailable?.Invoke();
+            OnNoAvailable?.Invoke(this);
             Debug.Log($"Девушка {OriginName} более недоступна");
         }
         else if (Progress >= MaxProgressValue)

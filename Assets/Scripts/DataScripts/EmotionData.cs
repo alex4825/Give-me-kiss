@@ -1,7 +1,4 @@
 ﻿using Newtonsoft.Json;
-using System;
-using UnityEngine;
-using UnityEngine.UI;
 
 [System.Serializable]
 public class EmotionData

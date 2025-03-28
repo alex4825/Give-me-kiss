@@ -1,13 +1,7 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 using AiToolbox;
-using System.Security.Cryptography;
-using UnityEditor.VersionControl;
-using System.IO;
-using TreeEditor;
 using Newtonsoft.Json;
 
 public class Messanger : MonoBehaviour
@@ -24,6 +18,7 @@ public class Messanger : MonoBehaviour
 
     public static event Action OnBackButtonClicked;
     public static event Action<Emotion> OnEmotionShown;
+    public static event Action OnSomeMessageSent;
 
     private void Awake()
     {
@@ -93,6 +88,7 @@ public class Messanger : MonoBehaviour
     private void InputField_OnMessageSent(string messageText)
     {
         WriteMessageToContainerFrom(PersonManager.Instance.Player, new AiToolbox.Message(messageText, Role.User));
+        OnSomeMessageSent?.Invoke();
 
         if (_isInitiated == false)
         {
@@ -129,6 +125,7 @@ public class Messanger : MonoBehaviour
             response =>
             {
                 WriteMessageToContainerFrom(currentPartner, new AiToolbox.Message(response, Role.AI));
+                OnSomeMessageSent?.Invoke();
 
                 AiMessageData messageData = JsonConvert.DeserializeObject<AiMessageData>(response);
 

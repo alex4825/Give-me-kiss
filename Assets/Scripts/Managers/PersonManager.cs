@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -24,10 +23,13 @@ public class PersonManager : SingletonPersistent<PersonManager>
         MainMenu.OnPlayButtonClicked += ResetCurrentPartner;
     }
 
-    private void BlockCurrentPartner()
+    private void BlockPartner(Partner partner)
     {
-        OnCurrentPartnerBlocked?.Invoke();
-        CurrentPartner = null;
+        //if (partner.OriginName == CurrentPartner.OriginName)
+        {
+            CurrentPartner = null;
+            OnCurrentPartnerBlocked?.Invoke();
+        }
     }
 
     private void ChangeCurrentPersonsProgress(Emotion emotion)
@@ -39,7 +41,7 @@ public class PersonManager : SingletonPersistent<PersonManager>
     private void SetCurrentPartner(Partner partner)
     {
         CurrentPartner = partner;
-        CurrentPartner.OnNoAvailable += BlockCurrentPartner;
+        Partner.OnNoAvailable += BlockPartner;
         //Partner.OnPresentKiss += KissBy;
     }
 

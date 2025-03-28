@@ -1,8 +1,5 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-using Newtonsoft.Json;
-using UnityEngine.UI;
-using UnityEngine.TextCore.Text;
 using System.Linq;
 
 public class EmotionManager : SingletonPersistent<EmotionManager>
