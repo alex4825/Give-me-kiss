@@ -184,11 +184,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4444490208010436438, guid: 9aeffe446fb7109438c28df42ecac8a4, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 300
+      value: 400
       objectReference: {fileID: 0}
     - target: {fileID: 4444490208010436438, guid: 9aeffe446fb7109438c28df42ecac8a4, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 300
+      value: 400
       objectReference: {fileID: 0}
     - target: {fileID: 4444490208010436438, guid: 9aeffe446fb7109438c28df42ecac8a4, type: 3}
       propertyPath: m_LocalPosition.x
@@ -241,6 +241,14 @@ PrefabInstance:
     - target: {fileID: 5947001040333063148, guid: 9aeffe446fb7109438c28df42ecac8a4, type: 3}
       propertyPath: m_Name
       value: MessangerPartnerCard
+      objectReference: {fileID: 0}
+    - target: {fileID: 6053590144286859512, guid: 9aeffe446fb7109438c28df42ecac8a4, type: 3}
+      propertyPath: radius
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 6745710146754408783, guid: 9aeffe446fb7109438c28df42ecac8a4, type: 3}
+      propertyPath: radius
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 8283518797196666849, guid: 9aeffe446fb7109438c28df42ecac8a4, type: 3}
       propertyPath: m_SizeDelta.x

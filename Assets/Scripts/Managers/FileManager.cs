@@ -12,7 +12,13 @@ public class FileManager : Singleton<FileManager>
     [SerializeField] private string EmotionsDataJsonFileName = "EmotionsData";
     [SerializeField] private string PartnersDataJsonFileName = "PartnersData";
     [SerializeField] private string InitialInstructionsToAITxtFileName = "InitialInstructionsToAI";
+    [SerializeField] private string ApiKeyGPTTxtFileName = "ApiKeyGPT";
     
+    public string LoadApiKeyGPT()
+    {
+        return LoadTxtInString(TextDataFolder + ApiKeyGPTTxtFileName);
+    }
+
     protected override void Awake()
     {
         base.Awake();

@@ -45,8 +45,8 @@ public class Card : MonoBehaviour
         ProgressBar.SetFillAmount(progressNotmalized);
     }
 
-    private void OnDisable()
+    /*private void OnDisable()
     {
         Person.OnProgressNormalizedChanged -= Person_OnProgressChanged;
-    }
+    }*/
 }

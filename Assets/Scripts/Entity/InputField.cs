@@ -31,6 +31,7 @@ public class InputField : MonoBehaviour, ISelectHandler, IDeselectHandler
         {
             OnMessageSent?.Invoke(_inputFieldTMP.text);
             _inputFieldTMP.text = string.Empty;
+            _inputFieldTMP.ActivateInputField();
         }
     }
 

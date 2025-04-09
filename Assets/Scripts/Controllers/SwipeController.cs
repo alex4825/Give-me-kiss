@@ -7,6 +7,7 @@ public class SwipeController : MonoBehaviour
 {
     [SerializeField] private RectTransform _scroller;
     [SerializeField] private RectTransform _cardContainer;
+    [SerializeField] private RectTransform _card;
     [SerializeField] private HorizontalLayoutGroup _horizontalLayoutGroup;
     [SerializeField] private float _swipeTime;
     [SerializeField] private Ease _easeType;
@@ -40,18 +41,12 @@ public class SwipeController : MonoBehaviour
     {
         float targetPositionX;
 
-        float swipeLenght = _cardContainer.rect.height * _scroller.localScale.y;
+        float swipeLenght = _card.rect.width * _scroller.localScale.y;
 
         if (toRight)
             targetPositionX = _cardContainer.position.x - swipeLenght;
         else
             targetPositionX = _cardContainer.position.x + swipeLenght;
-
-        /*if (targetPositionX % _swipeLenght != 0)
-        {
-            int roundedValue = (int)(targetPositionX / _swipeLenght);
-            targetPositionX = roundedValue * _swipeLenght;
-        }*/
 
         _cardContainer.DOMoveX(targetPositionX, _swipeTime).SetEase(_easeType);
     }

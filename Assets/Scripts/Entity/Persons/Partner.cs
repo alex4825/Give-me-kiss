@@ -36,7 +36,7 @@ public class Partner : Person
     public string AboutSelf { get; private set; }
     public Chat Chat { get; private set; }
     public bool IsAvailable { get; private set; }
-    public bool IsConquered { get; private set; } = false;
+    public bool IsConquered { get; private set; }
 
     public static event Action<Partner> OnNoAvailable;
     public static event Action<Partner> OnPresentKiss;
@@ -84,8 +84,8 @@ public class Partner : Person
         if (File.Exists(_fileIsConqueredPath))
         {
             string json = File.ReadAllText(_fileIsConqueredPath);
-            bool isConquredLevelValue = bool.Parse(json);
-            return isConquredLevelValue;
+            bool isConqured = bool.Parse(json);
+            return isConqured;
         }
         else
         {
@@ -93,7 +93,7 @@ public class Partner : Person
             SaveIsConquredToFile();
         }
 
-        return true;
+        return false;
     }
 
     private void SaveIsAvailableToFile()

@@ -41,7 +41,13 @@ public class PartnerCard : Card
 
         if(Partner.IsConquered == true)
         {
-            UpdateToKiss();
+            if (!PlayerPrefs.HasKey("FirstLaunch"))
+            {
+                UpdateToKiss();
+
+                PlayerPrefs.SetInt("FirstLaunch", 1);
+                PlayerPrefs.Save();
+            }
         }
     }
 
