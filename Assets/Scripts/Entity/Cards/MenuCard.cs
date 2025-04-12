@@ -5,7 +5,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PartnerCard : Card
+public class MenuCard : Card
 {
     [SerializeField] private TextMeshProUGUI _characterDescription;
     [SerializeField] private ButtonHandler _thisButtonHandler;
@@ -15,7 +15,7 @@ public class PartnerCard : Card
 
     public Partner Partner => Person as Partner;
 
-    private void Awake()
+    private void OnEnable()
     {
         _thisButtonHandler.OnClick += Card_OnCardClicked;
     }
@@ -39,16 +39,19 @@ public class PartnerCard : Card
             Block();
         }
 
-        if(Partner.IsConquered == true)
+        if (Partner.IsConquered == true)
         {
-            if (!PlayerPrefs.HasKey("FirstLaunch"))
-            {
-                UpdateToKiss();
+            UpdateToKiss();
 
-                PlayerPrefs.SetInt("FirstLaunch", 1);
-                PlayerPrefs.Save();
-            }
+            //if (!PlayerPrefs.HasKey("FirstLaunch"))
+            //{
+            //    UpdateToKiss();
+
+            //    PlayerPrefs.SetInt("FirstLaunch", 1);
+            //    PlayerPrefs.Save();
+            //}
         }
+
     }
 
     public void Block()

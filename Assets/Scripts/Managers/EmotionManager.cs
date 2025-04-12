@@ -26,7 +26,7 @@ public class EmotionManager : SingletonPersistent<EmotionManager>
     {
         int currentPlayerCharismaLevel = PersonManager.Instance.Player.CharismaLevel;
 
-        List<EmotionData> emotionsData = FileManager.Instance.JsonToEmotionDataList();
+        List<EmotionResourcesData> emotionsData = ResourcesFileLoader.JsonToEmotionDataList();
 
         Emotions = new List<Emotion>();
 

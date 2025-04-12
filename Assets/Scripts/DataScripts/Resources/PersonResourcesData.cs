@@ -1,7 +1,7 @@
 using Newtonsoft.Json;
 using UnityEngine;
 
-public class PersonData : MonoBehaviour
+public abstract class PersonResourcesData : MonoBehaviour
 {
     [JsonProperty("basicColor")]
     protected string HexColor

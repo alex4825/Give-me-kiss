@@ -1,7 +1,7 @@
 using Newtonsoft.Json;
 
 [System.Serializable]
-public class PartnerData : PersonData
+public class PartnerResourcesData : PersonResourcesData
 {
     [JsonProperty("age")]
     public int Age { get; private set; }

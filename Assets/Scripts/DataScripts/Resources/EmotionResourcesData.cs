@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 
 [System.Serializable]
-public class EmotionData
+public class EmotionResourcesData
 {
     [JsonProperty("originName")]
     public string OriginName { get; private set; }

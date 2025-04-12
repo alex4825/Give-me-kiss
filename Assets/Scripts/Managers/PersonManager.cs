@@ -17,7 +17,7 @@ public class PersonManager : SingletonPersistent<PersonManager>
         InitiatePlayerFromDataFile();
         InitiatePartnersFromDataFile();
 
-        PartnerCard.OnCardClicked += SetCurrentPartner;
+        MenuCard.OnCardClicked += SetCurrentPartner;
         Messanger.OnBackButtonClicked += ResetCurrentPartner;
         Messanger.OnEmotionShown += ChangeCurrentPersonsProgress;
         MainMenu.OnPlayButtonClicked += ResetCurrentPartner;
@@ -25,11 +25,8 @@ public class PersonManager : SingletonPersistent<PersonManager>
 
     private void BlockPartner(Partner partner)
     {
-        //if (partner.OriginName == CurrentPartner.OriginName)
-        {
-            CurrentPartner = null;
-            OnCurrentPartnerBlocked?.Invoke();
-        }
+        CurrentPartner = null;
+        OnCurrentPartnerBlocked?.Invoke();
     }
 
     private void ChangeCurrentPersonsProgress(Emotion emotion)
@@ -42,13 +39,7 @@ public class PersonManager : SingletonPersistent<PersonManager>
     {
         CurrentPartner = partner;
         Partner.OnNoAvailable += BlockPartner;
-        //Partner.OnPresentKiss += KissBy;
     }
-
-    /*private void KissBy(Partner partner)
-    {
-        OnCurrentPartnerKissed?.Invoke();
-    }*/
 
     private void ResetCurrentPartner()
     {
@@ -57,7 +48,7 @@ public class PersonManager : SingletonPersistent<PersonManager>
 
     private void InitiatePlayerFromDataFile()
     {
-        PlayerData playerData = FileManager.Instance.JsonToPlayerData();
+        PlayerResourcesData playerData = ResourcesFileLoader.JsonToPlayerData();
 
         Player = new Player(playerData);
 
@@ -67,7 +58,7 @@ public class PersonManager : SingletonPersistent<PersonManager>
     private void InitiatePartnersFromDataFile()
     {
         Partners = new List<Partner>();
-        List<PartnerData> partnersData = FileManager.Instance.JsonToPartnerDataList();
+        List<PartnerResourcesData> partnersData = ResourcesFileLoader.JsonToPartnerDataList();
 
         foreach (var partnerData in partnersData)
         {

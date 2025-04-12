@@ -20,14 +20,16 @@ public class Card : MonoBehaviour
         }
     }
 
-    public virtual void Initiate(Person person)
+    public void Initiate(Person person)
     {
         Person = person;
         PersonImage.sprite = Person.FaceSprite;
         BackgroundImage.color = person.BasicColor;
         ProgressBar.SetFillAmount(person.ProgressNormalized);
 
-        Person.OnProgressNormalizedChanged += Person_OnProgressChanged;
+        Person.OnProgressChanged += Person_OnProgressChanged;
+
+        PersonImage.sprite = Person.FaceSprite;
 
         if (Person is Partner && (Person as Partner).IsConquered)
         {

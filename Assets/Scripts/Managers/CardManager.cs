@@ -5,11 +5,11 @@ using UnityEngine;
 public class CardManager : SingletonPersistent<CardManager>
 {
     [SerializeField] private Transform _cardContainer;
-    [SerializeField] private PartnerCard _cardPrefab;
+    [SerializeField] private MenuCard _cardPrefab;
 
     private List<Partner> _partners;
 
-    public List<PartnerCard> Cards { get; private set; }
+    public List<MenuCard> Cards { get; private set; }
 
     protected override void Awake()
     {
@@ -24,23 +24,23 @@ public class CardManager : SingletonPersistent<CardManager>
 
     private void ChangeCardToKissFrom(Partner partner)
     {
-        PartnerCard partnerCard = Cards.First(card => card.Partner.OriginName == partner.OriginName);
+        MenuCard partnerCard = Cards.First(card => card.Partner.OriginName == partner.OriginName);
         partnerCard.UpdateToKiss();
     }
 
     private void BlockCardWithPartner(Partner partner)
     {
-        PartnerCard partnerCard = Cards.First(card => card.Partner.OriginName == partner.OriginName);
+        MenuCard partnerCard = Cards.First(card => card.Partner.OriginName == partner.OriginName);
         partnerCard.Block();
     }
 
     private void CreateCards()
     {
-        Cards = new List<PartnerCard>(_partners.Count);
+        Cards = new List<MenuCard>(_partners.Count);
 
         foreach (Partner partner in _partners)
         {
-            PartnerCard card = Instantiate(_cardPrefab, _cardContainer);
+            MenuCard card = Instantiate(_cardPrefab, _cardContainer);
             card.Initiate(partner);
             Cards.Add(card);
         }

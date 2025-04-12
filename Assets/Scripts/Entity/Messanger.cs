@@ -22,7 +22,7 @@ public class Messanger : MonoBehaviour
 
     private void Awake()
     {
-        string apiKeyGPT = FileManager.Instance.LoadApiKeyGPT();
+        string apiKeyGPT = ResourcesFileLoader.LoadApiKeyGPT();
 
         _gptParameters = new ChatGptParameters(apiKeyGPT)
         {
@@ -57,7 +57,7 @@ public class Messanger : MonoBehaviour
 
     private string GetInitialMessage()
     {
-        string initiateMessage = FileManager.Instance.LoadInitialInstructionsToAI();
+        string initiateMessage = ResourcesFileLoader.LoadInitialInstructionsToAI();
 
         string aboutAmotions = $"emotion может принимать такие значени€: {EmotionManager.Instance.GetEmotionsInString()}.";
         string aboutCurrentPartner = $"“вой персонаж: {PersonManager.Instance.CurrentPartner.ToString()}.";
@@ -132,9 +132,9 @@ public class Messanger : MonoBehaviour
                 AiMessageData messageData = JsonConvert.DeserializeObject<AiMessageData>(response);
 
                 Emotion messageEmotion = EmotionManager.Instance.GetEmotionBy(messageData.Emotion);
-                OnEmotionShown?.Invoke(messageEmotion);
 
                 currentPartner.Chat.Add(new AiToolbox.Message(response, Role.AI));
+                OnEmotionShown?.Invoke(messageEmotion);
             },
             (errorCode, errorMessage) =>
             {
@@ -142,24 +142,6 @@ public class Messanger : MonoBehaviour
             }
         );
     }
-
-    /// <summary>
-    /// /////////////////////////////////////////////////////
-    /// </summary>
-    /*private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            PersonManager.Instance.CurrentPartner.Chat.Clear();
-
-            ClearChat();
-            PersonManager.Instance.CurrentPartner.ResetFiles();
-            PersonManager.Instance.Player.ResetFiles();
-
-            _isInitiated = false;
-        }
-    }*/
-    /////////////////////////////////////////////////////////
 
     private void OnDisable()
     {

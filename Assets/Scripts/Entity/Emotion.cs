@@ -4,14 +4,14 @@ using UnityEngine;
 [Serializable]
 public class Emotion
 {
-    public Emotion(EmotionData emotionData)
+    public Emotion(EmotionResourcesData emotionData)
     {
         OriginName = emotionData.OriginName;
         Name = emotionData.Name;
         Strength = emotionData.Strength;
         IsPositive = emotionData.IsPositive;
 
-        EmojiSprite = FileManager.Instance.LoadEmojiSpriteBy(OriginName);
+        EmojiSprite = ResourcesFileLoader.LoadEmojiSpriteBy(OriginName);
     }
 
     public string OriginName { get; private set; }

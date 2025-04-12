@@ -2,47 +2,40 @@ using Newtonsoft.Json;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FileManager : Singleton<FileManager>
+public static class ResourcesFileLoader
 {
-    [SerializeField] private string CharactersSpritesFolder = "Images/Characters/";
-    [SerializeField] private string EmojiSpritesFolder = "Images/Emoji/";
-    [SerializeField] private string JsonDataFolder = "JsonData/";
-    [SerializeField] private string TextDataFolder = "TextData/";
-    [SerializeField] private string PlayerDataJsonFileName = "PlayerData";
-    [SerializeField] private string EmotionsDataJsonFileName = "EmotionsData";
-    [SerializeField] private string PartnersDataJsonFileName = "PartnersData";
-    [SerializeField] private string InitialInstructionsToAITxtFileName = "InitialInstructionsToAI";
-    [SerializeField] private string ApiKeyGPTTxtFileName = "ApiKeyGPT";
-    
-    public string LoadApiKeyGPT()
-    {
-        return LoadTxtInString(TextDataFolder + ApiKeyGPTTxtFileName);
-    }
+    private static string CharactersSpritesFolder = "Images/Characters/";
+    private static string EmojiSpritesFolder = "Images/Emoji/";
+    private static string JsonDataFolder = "JsonData/";
+    private static string TextDataFolder = "TextData/";
+    private static string PlayerDataJsonFileName = "PlayerData";
+    private static string EmotionsDataJsonFileName = "EmotionsData";
+    private static string PartnersDataJsonFileName = "PartnersData";
+    private static string InitialInstructionsToAITxtFileName = "InitialInstructionsToAI";
+    private static string ApiKeyGPTTxtFileName = "ApiKeyGPT";
 
-    protected override void Awake()
-    {
-        base.Awake();
-    }
+    public static string LoadApiKeyGPT()
+    => LoadTxtInString(TextDataFolder + ApiKeyGPTTxtFileName);
 
-    public string LoadInitialInstructionsToAI()
+    public static string LoadInitialInstructionsToAI()
         => LoadTxtInString(TextDataFolder + InitialInstructionsToAITxtFileName);
 
-    public List<EmotionData> JsonToEmotionDataList()
-    => JsonToListBy<EmotionData>(JsonDataFolder + EmotionsDataJsonFileName);
+    public static List<EmotionResourcesData> JsonToEmotionDataList()
+    => JsonToListBy<EmotionResourcesData>(JsonDataFolder + EmotionsDataJsonFileName);
 
-    public List<PartnerData> JsonToPartnerDataList()
-    => JsonToListBy<PartnerData>(JsonDataFolder + PartnersDataJsonFileName);
-        
-    public Sprite LoadCharacterSpriteBy(string originName)
+    public static List<PartnerResourcesData> JsonToPartnerDataList()
+    => JsonToListBy<PartnerResourcesData>(JsonDataFolder + PartnersDataJsonFileName);
+
+    public static Sprite LoadCharacterSpriteBy(string originName)
     => LoadSpriteBy(CharactersSpritesFolder + originName);
 
-    public Sprite LoadEmojiSpriteBy(string originName)
+    public static Sprite LoadEmojiSpriteBy(string originName)
     => LoadSpriteBy(EmojiSpritesFolder + originName);
 
-    public PlayerData JsonToPlayerData()
-     => JsonToObjectBy<PlayerData>(JsonDataFolder + PlayerDataJsonFileName);
+    public static PlayerResourcesData JsonToPlayerData()
+     => JsonToObjectBy<PlayerResourcesData>(JsonDataFolder + PlayerDataJsonFileName);
 
-    private Dictionary<string, T> JsonToDictionaryBy<T>(string resourcesJsonFile)
+    private static Dictionary<string, T> JsonToDictionaryBy<T>(string resourcesJsonFile)
     {
         Dictionary<string, T> keyValuePairs = new Dictionary<string, T>();
 
@@ -60,7 +53,7 @@ public class FileManager : Singleton<FileManager>
         return keyValuePairs;
     }
 
-    private List<T> JsonToListBy<T>(string resourcesJsonFile)
+    private static List<T> JsonToListBy<T>(string resourcesJsonFile)
     {
         List<T> list = new List<T>();
 
@@ -78,7 +71,7 @@ public class FileManager : Singleton<FileManager>
         return list;
     }
 
-    private T JsonToObjectBy<T>(string resourcesJsonFile)
+    private static T JsonToObjectBy<T>(string resourcesJsonFile)
     {
         T result = default;
 
@@ -96,7 +89,7 @@ public class FileManager : Singleton<FileManager>
         return result;
     }
 
-    private Sprite LoadSpriteBy(string resourcesSpriteFile)
+    private static Sprite LoadSpriteBy(string resourcesSpriteFile)
     {
         Sprite sprite = null;
 
@@ -112,7 +105,7 @@ public class FileManager : Singleton<FileManager>
         return sprite;
     }
 
-    private string LoadTxtInString(string resourcesTxtFile)
+    private static string LoadTxtInString(string resourcesTxtFile)
     {
         TextAsset txtFile = new TextAsset();
 

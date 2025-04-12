@@ -4,14 +4,11 @@ using UnityEngine;
 
 public class Player : Person
 {
-    private string _fileCharizmaLevelPath;
-    private string CharismaLevelFilePostfix = "_charismaLevel.json";
+    private PlayerPersistentData _persistentData;
 
-    public Player(PlayerData playerData) : base(playerData as PersonData)
+    public Player(PlayerResourcesData playerData) : base(playerData)
     {
-        _fileCharizmaLevelPath = Path.Combine(Application.persistentDataPath, OriginName + CharismaLevelFilePostfix);
-
-        CharismaLevel = LoadCharismaLevelFromFile();
+        InitiatePersistentData();
     }
 
     public int CharismaLevel { get; private set; }
@@ -30,7 +27,6 @@ public class Player : Person
             if (CharismaLevel == 0)
                 CharismaLevel = 1;
 
-            SaveCharismaLevelToFile();
             Progress = 0;
 
             OnCharismaLevelUp?.Invoke(CharismaLevel);
@@ -44,47 +40,36 @@ public class Player : Person
             if (CharismaLevel == 0)
                 CharismaLevel = -1;
 
-            SaveCharismaLevelToFile();
             Progress = 0;
 
             OnCharismaLevelDown?.Invoke(CharismaLevel);
 
             Debug.Log($"Уровень харизмы понижен до {CharismaLevel}");
         }
+
+        UpdatePersistentData();
     }
 
 
-    private int LoadCharismaLevelFromFile()
+    private void InitiatePersistentData()
     {
-        if (File.Exists(_fileCharizmaLevelPath))
+        if (PersistantDataController.IsFileExists(OriginName))
         {
-            string json = File.ReadAllText(_fileCharizmaLevelPath);
-            int charismaLevelValue = int.Parse(json);
-            return charismaLevelValue;
+            _persistentData = PersistantDataController.Load<PlayerPersistentData>(OriginName);
         }
         else
         {
-            CharismaLevel = 1;
-            SaveCharismaLevelToFile();
+            _persistentData = new PlayerPersistentData(0, 1);
+            PersistantDataController.Save(OriginName, _persistentData);
         }
 
-        return 0;
+        Progress = _persistentData.Progress;
+        CharismaLevel = _persistentData.CharizmaLevel;
     }
 
-    private void SaveCharismaLevelToFile()
+    private void UpdatePersistentData()
     {
-        File.WriteAllText(_fileCharizmaLevelPath, CharismaLevel.ToString());
-    }
-
-
-    /// <summary>
-    /// //////////////////////////////////////////////////
-    /// </summary>
-    public override void ResetFiles()
-    {
-        base.ResetFiles();
-
-        CharismaLevel = 1;
-        File.Delete(_fileCharizmaLevelPath);
+        _persistentData = new PlayerPersistentData(Progress, CharismaLevel);
+        PersistantDataController.Save(OriginName, _persistentData);
     }
 }

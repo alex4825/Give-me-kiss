@@ -12,10 +12,16 @@ public class MessangerCardsController : MonoBehaviour
         Messanger.OnEmotionShown += ShowCurrentPartnerAmotion;
         PersonManager.Instance.Player.OnCharismaLevelUp += ShowPlayerCharizmaLevelUp; 
         PersonManager.Instance.Player.OnCharismaLevelDown += ShowPlayerCharizmaLevelDown;
-        Partner.OnPresentKiss += UpdateMessangerPartnerCard;
+        Partner.OnPresentKiss += UpdateMessangerPartnerCardToKiss;
     }
 
-    private void UpdateMessangerPartnerCard(Partner partner)
+    private void OnEnable()
+    {
+        _playerCard.Initiate(PersonManager.Instance.Player);
+        _partnerCard.Initiate(PersonManager.Instance.CurrentPartner);
+    }
+
+    private void UpdateMessangerPartnerCardToKiss(Partner partner)
     {
         _partnerCard.PersonImage.sprite = partner.KissSprite;
     }
@@ -34,16 +40,10 @@ public class MessangerCardsController : MonoBehaviour
         _playerCard.UpdateProgress(0);
     }
 
-    private void OnEnable()
-    {
-        _playerCard.Initiate(PersonManager.Instance.Player);
-        _partnerCard.Initiate(PersonManager.Instance.CurrentPartner); 
-    }
-
     private void ShowCurrentPartnerAmotion(Emotion emotion)
     {
         EmotionObject emotionObject = Instantiate(_emotionPrefab, _partnerCard.PopupLocation);
-        emotionObject.SetFrom(emotion);
+        emotionObject.Initiiate(emotion);
     }
 
 

@@ -1,39 +1,32 @@
 using System;
-using System.IO;
+using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
 public class Partner : Person
 {
-    private string _fileIsAvailablePath;
-    private string IsAvailableFilePostfix = "_isAvailable.json";
+    private PartnerPersistentData _persistentData;
 
-    private string _fileIsConqueredPath;
-    private string IsConqueredFilePostfix = "_isConquered.json";
-
-    public Partner(PartnerData partnerData) : base(partnerData as PersonData)
+    public Partner(PartnerResourcesData partnerData) : base(partnerData)
     {
         Age = partnerData.Age;
         Height = partnerData.Height;
         AboutSelf = partnerData.AboutSelf;
         ShortAboutSelf = partnerData.ShortAboutSelf;
+        KissSprite = ResourcesFileLoader.LoadCharacterSpriteBy($"{OriginName}_kiss");
 
-        Chat = new Chat(this);
+        Chat = new Chat();
 
-        _fileIsAvailablePath = Path.Combine(Application.persistentDataPath, OriginName + IsAvailableFilePostfix);
-        _fileIsConqueredPath = Path.Combine(Application.persistentDataPath, OriginName + IsConqueredFilePostfix);
+        InitiatePersistentData();
 
-        IsAvailable = LoadIsAvailableFromFile();
-        IsConquered = LoadIsConqueredFromFile();
-
-        if (IsConquered)
-            OnPresentKiss?.Invoke(this);
+        CheckProgress();
     }
 
     public int Age { get; private set; }
     public int Height { get; private set; }
     public string ShortAboutSelf { get; private set; }
     public string AboutSelf { get; private set; }
+    public Sprite KissSprite { get; protected set; }
     public Chat Chat { get; private set; }
     public bool IsAvailable { get; private set; }
     public bool IsConquered { get; private set; }
@@ -45,6 +38,13 @@ public class Partner : Person
     {
         base.AddProgressFrom(emotion);
 
+        CheckProgress();
+
+        UpdatePersistentData();
+    }
+
+    private void CheckProgress()
+    {
         if (Progress <= MinProgressValue)
         {
             IsAvailable = false;
@@ -57,53 +57,11 @@ public class Partner : Person
             OnPresentKiss?.Invoke(this);
             Debug.Log($"Девушка {OriginName} подарила поцелуй!");
         }
-
-        SaveIsAvailableToFile();
-        SaveIsConquredToFile();
-    }
-
-    private bool LoadIsAvailableFromFile()
-    {
-        if (File.Exists(_fileIsAvailablePath))
-        {
-            string json = File.ReadAllText(_fileIsAvailablePath);
-            bool isAvailableLevelValue = bool.Parse(json);
-            return isAvailableLevelValue;
-        }
         else
         {
             IsAvailable = true;
-            SaveIsAvailableToFile();
-        }
-
-        return true;
-    }
-
-    private bool LoadIsConqueredFromFile()
-    {
-        if (File.Exists(_fileIsConqueredPath))
-        {
-            string json = File.ReadAllText(_fileIsConqueredPath);
-            bool isConqured = bool.Parse(json);
-            return isConqured;
-        }
-        else
-        {
             IsConquered = false;
-            SaveIsConquredToFile();
         }
-
-        return false;
-    }
-
-    private void SaveIsAvailableToFile()
-    {
-        File.WriteAllText(_fileIsAvailablePath, IsAvailable.ToString());
-    }
-
-    private void SaveIsConquredToFile()
-    {
-        File.WriteAllText(_fileIsConqueredPath, IsConquered.ToString());
     }
 
     public override string ToString()
@@ -111,14 +69,25 @@ public class Partner : Person
         return $"Имя: {Name}, Возраст: {Age}, Рост: {Height}, Кратко о себе: {ShortAboutSelf}, Описание персонажа: {AboutSelf}";
     }
 
-    /// <summary>
-    /// ////////////////////////////////////////////////
-    /// </summary>
-    public override void ResetFiles()
+    private void InitiatePersistentData()
     {
-        base.ResetFiles();
+        if (PersistantDataController.IsFileExists(OriginName))
+        {
+            _persistentData = PersistantDataController.Load<PartnerPersistentData>(OriginName);
+        }
+        else
+        {
+            _persistentData = new PartnerPersistentData(0, null);
+            PersistantDataController.Save(OriginName, _persistentData);
+        }
 
-        IsAvailable = true;
-        File.Delete(_fileIsAvailablePath);
+        Progress = _persistentData.Progress;
+        Chat.SetHistory(_persistentData.ChatHistory);
+    }
+    
+    private void UpdatePersistentData()
+    {
+        _persistentData = new PartnerPersistentData(Progress, Chat.History);
+        PersistantDataController.Save(OriginName, _persistentData);
     }
 }

@@ -17,7 +17,7 @@ public class GameManager : SingletonPersistent<GameManager>
 
         UpdateGameModeTo(GameState.MainMenu);
 
-        PartnerCard.OnCardClicked += OpenMessenger;
+        MenuCard.OnCardClicked += OpenMessenger;
         Messanger.OnBackButtonClicked += OpenChoosingPartnerMenu;
         MainMenu.OnPlayButtonClicked += OpenChoosingPartnerMenu;
         PartnerSelectionMenu.OnBackButtonClicked += OpenMainMenu;
