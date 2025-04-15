@@ -4,6 +4,7 @@ using UnityEngine;
 
 public abstract class Person
 {
+    //если протектед то лучше делать это пропертями с приватными сеттерами, чтобы сохранять инкапсуляцию
     protected float MaxProgressValue = 100;
     protected float MinProgressValue;
 

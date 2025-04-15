@@ -9,12 +9,14 @@ public class CharismaObject : MonoBehaviour
     {
         if (isPositive)
         {
-            _emotionText.text = "Уровень харизмы повышен.";
+            // Сѓ РјРµРЅСЏ С‚РµРєСЃС‚ РѕС‚РѕР±СЂР°Р¶Р°РµС‚СЃСЏ РєРІР°РґСЂР°С‚РёРєР°РјРё, РґР»СЏ С‚РµРєСЃС‚Р° РјРѕР¶РЅРѕ Р·Р°РІРµСЃС‚Рё SO
+            // РёР»Рё РЅР° РєСЂР°Р№РЅСЏРє json
+            _emotionText.text = "пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ.";
             _emotionText.color = Color.green;
         }
         else
         {
-            _emotionText.text = "Уровень харизмы понижен.";
+            _emotionText.text = "пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ.";
             _emotionText.color = Color.red;
         }
     }

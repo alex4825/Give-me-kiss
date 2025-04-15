@@ -3,6 +3,8 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
+//в целом по неймингам, всё что Controller, Manager - зачастую ведёт к тому
+//что у класса будет размазанная ответсвтенность
 public class SwipeController : MonoBehaviour
 {
     [SerializeField] private RectTransform _scroller;
@@ -21,6 +23,7 @@ public class SwipeController : MonoBehaviour
 
     public void Next()
     {
+        //так флоаты лучше не сравнивать, можно как-то так - Mathf.Approximately(_swipeTimer, _swipeTime)
         if (_swipeTimer == _swipeTime)
         {
             Move(true);
@@ -48,6 +51,7 @@ public class SwipeController : MonoBehaviour
         else
             targetPositionX = _cardContainer.position.x + swipeLenght;
 
+        //твины лучше сохранять или убивать, они могут насыпать эксешпнеов
         _cardContainer.DOMoveX(targetPositionX, _swipeTime).SetEase(_easeType);
     }
 

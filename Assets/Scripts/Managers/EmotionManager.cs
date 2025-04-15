@@ -53,6 +53,7 @@ public class EmotionManager : SingletonPersistent<EmotionManager>
     {
         Emotion emotion = Emotions.FirstOrDefault(emotion => emotion.OriginName == originName);
 
+        //стринги такие лучше сохранять в константу
         if (emotion == null)
             return Emotions.First(emotion => emotion.OriginName == "Calm");
         else

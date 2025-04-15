@@ -34,6 +34,9 @@ public class CardManager : SingletonPersistent<CardManager>
         partnerCard.Block();
     }
 
+    //вот тут вторая отвествтенность нарисовалась - спавн
+    //такое тоже лучше выносить в фабрики, можешь почитать там есть нескольо паттернов - фабричный метод, абстрактная фабрика
+    //и ещё чёт)
     private void CreateCards()
     {
         Cards = new List<MenuCard>(_partners.Count);

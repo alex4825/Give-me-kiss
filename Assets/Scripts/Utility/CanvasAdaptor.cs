@@ -19,6 +19,8 @@ public class CanvasAdaptor : MonoBehaviour
 
     private void Update()
     {
+        //тут в каждом кадре обновляется скейл у UI элементов??
+        //это хуёвенько, а кстати зачем?
         if (_shouldConsiderBothDimensions)
             ScaleAfterChangeDimentions(Screen.width < _minScreenResolution.x && Screen.height < _minScreenResolution.y);
         else

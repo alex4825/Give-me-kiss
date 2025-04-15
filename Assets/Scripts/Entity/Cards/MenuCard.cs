@@ -11,6 +11,8 @@ public class MenuCard : Card
     [SerializeField] private ButtonHandler _thisButtonHandler;
     [SerializeField] private Image _grayLayer;
 
+    //статик ивенты не лучшая затея
+    //лучше уж иметь список всех карт и подписываться на обычный ивент
     public static event Action<Partner> OnCardClicked;
 
     public Partner Partner => Person as Partner;
