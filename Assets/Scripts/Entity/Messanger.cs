@@ -59,9 +59,10 @@ public class Messanger : MonoBehaviour
     {
         string initiateMessage = ResourcesFileLoader.LoadInitialInstructionsToAI();
 
-        string aboutAmotions = $"emotion ����� ��������� ����� ��������: {EmotionManager.Instance.GetEmotionsInString()}.";
-        string aboutCurrentPartner = $"���� ��������: {PersonManager.Instance.CurrentPartner.ToString()}.";
-        string closingMessage = $"������ ���������� ���� ��������� � �������. _INSTRUCT_END.";
+        //ох бля
+        string aboutAmotions = $"emotion ����� ��������� ����� ��������: {EmotionManager.Instance.GetEmotionsInString()}.";
+        string aboutCurrentPartner = $"���� ��������: {PersonManager.Instance.CurrentPartner.ToString()}.";
+        string closingMessage = $"������ ���������� ���� ��������� � �������. _INSTRUCT_END.";
 
         initiateMessage += aboutAmotions + aboutCurrentPartner + closingMessage;
         Debug.Log($"Initial message for {PersonManager.Instance.CurrentPartner.OriginName} is:\n {initiateMessage}");
@@ -87,6 +88,7 @@ public class Messanger : MonoBehaviour
         }
     }
 
+    //тут чисто вкусовщина, но нижние подчеркивания в методах такое
     private void InputField_OnMessageSent(string messageText)
     {
         WriteMessageToContainerFrom(PersonManager.Instance.Player, new AiToolbox.Message(messageText, Role.User));
@@ -94,6 +96,7 @@ public class Messanger : MonoBehaviour
 
         if (_isInitiated == false)
         {
+            //по синглтонам отдельно распишу
             PersonManager.Instance.CurrentPartner.Chat.Add(new AiToolbox.Message(_initialMessage, Role.User));
             _isInitiated = true;
         }
@@ -121,6 +124,8 @@ public class Messanger : MonoBehaviour
     {
         Partner currentPartner = PersonManager.Instance.CurrentPartner;
 
+        //вот такое кстати лучше выносить в отдельные сервисы, что-то типа IChatGptService
+        //у тебя получается в классе несколько ответственностей намешанных
         ChatGpt.Request(
             currentPartner.Chat.History,
             _gptParameters,

@@ -31,7 +31,7 @@ public class Player : Person
 
             OnCharismaLevelUp?.Invoke(CharismaLevel);
 
-            Debug.Log($"������� ������� ������� �� {CharismaLevel}");
+            Debug.Log($"������� ������� ������� �� {CharismaLevel}");
         }
         else if (Progress <= MinProgressValue)
         {
@@ -44,13 +44,15 @@ public class Player : Person
 
             OnCharismaLevelDown?.Invoke(CharismaLevel);
 
-            Debug.Log($"������� ������� ������� �� {CharismaLevel}");
+            Debug.Log($"������� ������� ������� �� {CharismaLevel}");
         }
 
         UpdatePersistentData();
     }
 
-
+    //тут тоже вторая ответственность появилась, сохранения/загрузка состояния
+    //лучше выделить отдельный сервис для этого
+    //и вроде как между участниками иерархии этот код повторяется
     private void InitiatePersistentData()
     {
         if (PersistantDataController.IsFileExists(OriginName))

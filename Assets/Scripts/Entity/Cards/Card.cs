@@ -7,7 +7,8 @@ public class Card : MonoBehaviour
     [SerializeField] protected Image BackgroundImage;
     [SerializeField] protected ProgressBar ProgressBar;
     [SerializeField] private Transform _emotionLocation;
-
+    //ну тут чисто придирки, тут public у первого поля, но тут скорей всего была спешка так что не важно
+    
     protected Person Person;
 
     public Transform PopupLocation => _emotionLocation;

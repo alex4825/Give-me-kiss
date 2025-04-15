@@ -46,6 +46,8 @@ public class PersonManager : SingletonPersistent<PersonManager>
         CurrentPartner = null;
     }
 
+    // тут как-будто намешаны слои, то есть тут как-будто и с view частью работаем и с данными 
+    // и ещё инфраструктурный слой задействован
     private void InitiatePlayerFromDataFile()
     {
         PlayerResourcesData playerData = ResourcesFileLoader.JsonToPlayerData();

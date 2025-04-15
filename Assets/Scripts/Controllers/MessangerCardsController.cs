@@ -7,8 +7,10 @@ public class MessangerCardsController : MonoBehaviour
     [SerializeField] private EmotionObject _emotionPrefab;
     [SerializeField] private CharismaObject _charismaPrefab;
 
+    //на Awake лучше в принципе ничего не добавлять, вызовы Awake слишком грузят систему
     private void Awake()
     {
+        //можно отписаться от ивентов на OnDestroy например
         Messanger.OnEmotionShown += ShowCurrentPartnerAmotion;
         PersonManager.Instance.Player.OnCharismaLevelUp += ShowPlayerCharizmaLevelUp; 
         PersonManager.Instance.Player.OnCharismaLevelDown += ShowPlayerCharizmaLevelDown;
